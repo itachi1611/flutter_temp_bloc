@@ -1,0 +1,8 @@
+{
+  "@@locale": "ja",
+  "title": "こんにちは",
+  "flush_bar_notification": "通知",
+  "flush_bar_success": "成功",
+  "flush_bar_warning": "注意",
+  "flush_bar_error": "失敗"
+}

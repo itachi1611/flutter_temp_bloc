@@ -1,0 +1,8 @@
+{
+  "@@locale": "en",
+  "title": "Hello",
+  "flush_bar_notification": "Notification",
+  "flush_bar_success": "Success",
+  "flush_bar_warning": "Warning",
+  "flush_bar_error": "Error"
+}

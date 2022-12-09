@@ -1,0 +1,8 @@
+{
+  "@@locale": "vi",
+  "title": "Xin Chào",
+  "flush_bar_notification": "Thông báo",
+  "flush_bar_success": "Thành công",
+  "flush_bar_warning": "Cảnh báo",
+  "flush_bar_error": "Lỗi"
+}
