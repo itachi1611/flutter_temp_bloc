@@ -64,6 +64,8 @@ final ColorScheme darkColorScheme = ColorScheme.dark(
 final ThemeData lightTheme = ThemeData(
   colorScheme: lightColorScheme,
   toggleableActiveColor: primarySwatch.shade500,
+  splashColor: Colors.transparent,
+  highlightColor: Colors.transparent,
   textTheme: TextTheme(
     displayLarge: GoogleFonts.lato(
       color: textSwatch.shade700,
@@ -116,6 +118,8 @@ final ThemeData lightTheme = ThemeData(
 final ThemeData darkTheme = lightTheme.copyWith(
   colorScheme: darkColorScheme,
   toggleableActiveColor: primarySwatch.shade500,
+  splashColor: Colors.transparent,
+  highlightColor: Colors.transparent,
   textTheme: TextTheme(
     displayLarge: GoogleFonts.lato(
       color: textSwatch.shade200,

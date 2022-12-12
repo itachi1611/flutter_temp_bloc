@@ -9,6 +9,7 @@ import 'package:flutter_temp/utils/app_flush_bar.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import '../../app/app_cubit.dart';
+import '../../utils/app_dialog.dart';
 import '../../utils/app_logger.dart';
 import '../../utils/app_permission.dart';
 import 'home_cubit.dart';
@@ -75,12 +76,14 @@ class _HomePageState extends State<HomePage> {
               case ConnectionStatus.mobileOffline:
               case ConnectionStatus.wifiOffline:
               case ConnectionStatus.offline:
-                AppFlushBar.showFlushBar(context, message: state.connectionStatus?.message.toString().trim(), type: FlushType.error);
+                // AppFlushBar.showFlushBar(context, message: state.connectionStatus?.message.toString().trim(), type: FlushType.error);
+                AppDialog.showCustomDialog(context,title: 'test', content: 'contentttttt');
                 break;
               case ConnectionStatus.mobileOnline:
               case ConnectionStatus.wifiOnline:
               default:
-                AppFlushBar.showFlushBar(context, message: state.connectionStatus?.message.toString().trim(), type: FlushType.success);
+                // AppFlushBar.showFlushBar(context, message: state.connectionStatus?.message.toString().trim(), type: FlushType.success);
+                AppDialog.showCustomDialog(context,title: 'test', content: 'contentttttt');
                 break;
             }
           },
