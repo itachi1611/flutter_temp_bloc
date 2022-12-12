@@ -1,3 +1,5 @@
+import 'package:animated_snack_bar/animated_snack_bar.dart';
+
 enum LoadStatus {
   initial,
   loading,
@@ -22,4 +24,15 @@ enum FlushType {
   success,
   warning,
   error,
+}
+
+enum SnackBarType {
+  info(AnimatedSnackBarType.info),
+  error(AnimatedSnackBarType.error),
+  success(AnimatedSnackBarType.success),
+  warning(AnimatedSnackBarType.warning);
+
+  final AnimatedSnackBarType snackBarType;
+
+  const SnackBarType(this.snackBarType);
 }

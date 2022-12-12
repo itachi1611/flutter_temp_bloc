@@ -99,6 +99,46 @@ class S {
       args: [],
     );
   }
+
+  /// `Info`
+  String get snack_bar_info {
+    return Intl.message(
+      'Info',
+      name: 'snack_bar_info',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Success`
+  String get snack_bar_success {
+    return Intl.message(
+      'Success',
+      name: 'snack_bar_success',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Warning`
+  String get snack_bar_warning {
+    return Intl.message(
+      'Warning',
+      name: 'snack_bar_warning',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Error`
+  String get snack_bar_error {
+    return Intl.message(
+      'Error',
+      name: 'snack_bar_error',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

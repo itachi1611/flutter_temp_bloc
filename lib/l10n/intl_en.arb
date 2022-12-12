@@ -4,5 +4,9 @@
   "flush_bar_notification": "Notification",
   "flush_bar_success": "Success",
   "flush_bar_warning": "Warning",
-  "flush_bar_error": "Error"
+  "flush_bar_error": "Error",
+  "snack_bar_info": "Info",
+  "snack_bar_success": "Success",
+  "snack_bar_warning": "Warning",
+  "snack_bar_error": "Error"
 }

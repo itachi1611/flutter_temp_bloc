@@ -57,6 +57,7 @@ This repository makes use of the following pub packages:
 | [Google Fonts](https://pub.dev/packages/google_fonts)                | ^2.0.5   | Fonts provided by google                             |
 | [Connectivity Plus](https://pub.dev/packages/connectivity_plus)      | ^2.0.5   | Check internet's connection status                   |
 | [Another Flushbar](https://pub.dev/packages/another_flushbar)        | ^1.12.29 | Flushbar                                             |
+| [Animated Snack Bar](https://pub.dev/packages/animated_snack_bar)    | ^0.3.0   | Animated Snack bar                                   |
 | [Equatable](https://pub.dev/packages/equatable)                      | ^3.0.1   | Easily compare custom classes, used for Bloc states* |
 | [Logger](https://pub.dev/packages/logger)                            | ^1.1.0   | Custom logger                                        |
 | [Splash View](https://pub.dev/packages/splash_view)                  | ^2.0.1   | Custom splash screen                                 |

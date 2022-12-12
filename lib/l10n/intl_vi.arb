@@ -4,5 +4,9 @@
   "flush_bar_notification": "Thông báo",
   "flush_bar_success": "Thành công",
   "flush_bar_warning": "Cảnh báo",
-  "flush_bar_error": "Lỗi"
+  "flush_bar_error": "Lỗi",
+  "snack_bar_info": "Thông báo",
+  "snack_bar_success": "Thành công",
+  "snack_bar_warning": "Cảnh báo",
+  "snack_bar_error": "Lỗi"
 }

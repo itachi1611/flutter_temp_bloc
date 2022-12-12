@@ -27,6 +27,10 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Notification"),
         "flush_bar_success": MessageLookupByLibrary.simpleMessage("Success"),
         "flush_bar_warning": MessageLookupByLibrary.simpleMessage("Warning"),
+        "snack_bar_error": MessageLookupByLibrary.simpleMessage("Error"),
+        "snack_bar_info": MessageLookupByLibrary.simpleMessage("Info"),
+        "snack_bar_success": MessageLookupByLibrary.simpleMessage("Success"),
+        "snack_bar_warning": MessageLookupByLibrary.simpleMessage("Warning"),
         "title": MessageLookupByLibrary.simpleMessage("Hello")
       };
 }

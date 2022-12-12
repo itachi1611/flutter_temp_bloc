@@ -27,6 +27,10 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Thông báo"),
         "flush_bar_success": MessageLookupByLibrary.simpleMessage("Thành công"),
         "flush_bar_warning": MessageLookupByLibrary.simpleMessage("Cảnh báo"),
+        "snack_bar_error": MessageLookupByLibrary.simpleMessage("Lỗi"),
+        "snack_bar_info": MessageLookupByLibrary.simpleMessage("Thông báo"),
+        "snack_bar_success": MessageLookupByLibrary.simpleMessage("Thành công"),
+        "snack_bar_warning": MessageLookupByLibrary.simpleMessage("Cảnh báo"),
         "title": MessageLookupByLibrary.simpleMessage("Xin Chào")
       };
 }
