@@ -20,6 +20,7 @@ class _SplashPageState extends State<SplashPage> {
   void initState() {
     super.initState();
     _splashCubit = SplashCubit();
+    _splashCubit.getDeviceInfo();
     _splashCubit.onAnimateLogo();
   }
 

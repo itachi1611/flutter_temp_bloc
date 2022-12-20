@@ -56,14 +56,23 @@ This repository makes use of the following pub packages:
 | [Permission Handler](https://pub.dev/packages/permission_handler)    | ^10.2.0  | Handler app permission                               |
 | [Google Fonts](https://pub.dev/packages/google_fonts)                | ^2.0.5   | Fonts provided by google                             |
 | [Connectivity Plus](https://pub.dev/packages/connectivity_plus)      | ^2.0.5   | Check internet's connection status                   |
+| [Retrofit](https://pub.dev/packages/retrofit)                        | ^3.3.1   | Retrofit                                             |
+| [Dio](https://pub.dev/packages/dio)                                  | ^4.0.6   | Retrofit                                             |
 | [Another Flushbar](https://pub.dev/packages/another_flushbar)        | ^1.12.29 | Flushbar                                             |
 | [Animated Snack Bar](https://pub.dev/packages/animated_snack_bar)    | ^0.3.0   | Animated Snack bar                                   |
 | [Equatable](https://pub.dev/packages/equatable)                      | ^3.0.1   | Easily compare custom classes, used for Bloc states* |
 | [Logger](https://pub.dev/packages/logger)                            | ^1.1.0   | Custom logger                                        |
+| [Device Info Plus](https://pub.dev/packages/device_info_plus)        | ^8.0.0   | Get device information                               |
 | [Splash View](https://pub.dev/packages/splash_view)                  | ^2.0.1   | Custom splash screen                                 |
 | [Cupertino Icons](https://pub.dev/packages/cupertino_icons)          | ^2.0.5   | Cupertino icons                                      |
 | [Flutter Lints](https://pub.dev/packages/flutter_lints)              | ^2.0.1   | Stricter linting rules                               |
+| [Retrofit Generator](https://pub.dev/packages/retrofit_generator)    | ^4.2.0   | Generation for retrofit                              |
+| [Json Serializable](https://pub.dev/packages/json_serializable)      | ^6.5.4   | Handling JSON                                        |
+| [Hive Generator](https://pub.dev/packages/hive_generator)            | ^2.0.0   | Hive generator tool                                  |
+| [Build Runner](https://pub.dev/packages/build_runner)                | ^2.3.3   | Standalone generator and watcher for Dart            |
 
+
+device_info_plus: ^8.0.0
 > \* Recommended to keep regardless of your project
 
 ## Changing the package and app name

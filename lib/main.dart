@@ -9,6 +9,7 @@ import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:path_provider/path_provider.dart';
 
 import 'app/app_page.dart';
+import 'models/m.hive/user.dart';
 
 final appLogger = AppLogger.instance;
 
@@ -29,6 +30,9 @@ Future<void> main() async {
         ? HydratedStorage.webStorageDirectory
         : tmpDir,
   );
+
+  Hive.init(tmpDir.path.toString());
+  Hive.registerAdapter(UserAdapter());
 
   runApp(const AppPage());
 }

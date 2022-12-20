@@ -36,3 +36,9 @@ enum SnackBarType {
 
   const SnackBarType(this.snackBarType);
 }
+
+enum ButtonType {
+  text,
+  elevated,
+  outlined,
+}
