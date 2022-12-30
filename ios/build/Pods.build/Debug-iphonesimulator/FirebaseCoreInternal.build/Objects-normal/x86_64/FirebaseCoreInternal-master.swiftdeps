@@ -1,0 +1,27 @@
+version: "Apple Swift version 5.7.1 (swiftlang-5.7.1.135.3 clang-1400.0.29.51)"
+options: "a2f4f450d818b71fd96af88287c355a53331e963e82f165bb9b6d9862c10ae50"
+build_start_time: [1672219219, 402162075]
+build_end_time: [1672219223, 479751110]
+inputs:
+  ? "/Users/namnt/_nws/src/flutter_temp_bloc/ios/Pods/FirebaseCoreInternal/FirebaseCore/Internal/Sources/HeartbeatLogging/Heartbeat.swift"
+  : [1672212358, 916642189]
+  ? "/Users/namnt/_nws/src/flutter_temp_bloc/ios/Pods/FirebaseCoreInternal/FirebaseCore/Internal/Sources/HeartbeatLogging/HeartbeatController.swift"
+  : [1672212358, 916929960]
+  ? "/Users/namnt/_nws/src/flutter_temp_bloc/ios/Pods/FirebaseCoreInternal/FirebaseCore/Internal/Sources/HeartbeatLogging/HeartbeatStorage.swift"
+  : [1672212358, 917110443]
+  ? "/Users/namnt/_nws/src/flutter_temp_bloc/ios/Pods/FirebaseCoreInternal/FirebaseCore/Internal/Sources/HeartbeatLogging/HeartbeatsBundle.swift"
+  : [1672212358, 917192459]
+  ? "/Users/namnt/_nws/src/flutter_temp_bloc/ios/Pods/FirebaseCoreInternal/FirebaseCore/Internal/Sources/HeartbeatLogging/HeartbeatsPayload.swift"
+  : [1672212358, 917361736]
+  ? "/Users/namnt/_nws/src/flutter_temp_bloc/ios/Pods/FirebaseCoreInternal/FirebaseCore/Internal/Sources/HeartbeatLogging/RingBuffer.swift"
+  : [1672212358, 916733264]
+  ? "/Users/namnt/_nws/src/flutter_temp_bloc/ios/Pods/FirebaseCoreInternal/FirebaseCore/Internal/Sources/HeartbeatLogging/Storage.swift"
+  : [1672212358, 916519165]
+  ? "/Users/namnt/_nws/src/flutter_temp_bloc/ios/Pods/FirebaseCoreInternal/FirebaseCore/Internal/Sources/HeartbeatLogging/StorageFactory.swift"
+  : [1672212358, 917456150]
+  ? "/Users/namnt/_nws/src/flutter_temp_bloc/ios/Pods/FirebaseCoreInternal/FirebaseCore/Internal/Sources/HeartbeatLogging/WeakContainer.swift"
+  : [1672212358, 917273283]
+  ? "/Users/namnt/_nws/src/flutter_temp_bloc/ios/Pods/FirebaseCoreInternal/FirebaseCore/Internal/Sources/HeartbeatLogging/_ObjC_HeartbeatController.swift"
+  : [1672212358, 916836023]
+  ? "/Users/namnt/_nws/src/flutter_temp_bloc/ios/Pods/FirebaseCoreInternal/FirebaseCore/Internal/Sources/HeartbeatLogging/_ObjC_HeartbeatsPayload.swift"
+  : [1672212358, 917022705]

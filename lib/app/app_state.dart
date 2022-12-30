@@ -5,21 +5,25 @@ class AppState extends Equatable {
     this.themeMode,
     this.locale,
     this.connectionStatus,
+    this.lists,
   });
 
   final ThemeMode? themeMode;
   final Locale? locale;
   final ConnectionStatus? connectionStatus;
+  final List<String>? lists;
 
   AppState copyWith({
     ThemeMode? themeMode,
     Locale? locale,
     ConnectionStatus? connectionStatus,
+    List<String>? lists,
   }) {
     return AppState(
       themeMode: themeMode ?? this.themeMode,
       locale: locale ?? this.locale,
       connectionStatus: connectionStatus ?? this.connectionStatus,
+      lists: lists ?? this.lists,
     );
   }
 
@@ -28,5 +32,6 @@ class AppState extends Equatable {
         themeMode,
         locale,
         connectionStatus,
+        lists,
       ];
 }

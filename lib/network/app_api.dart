@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:flutter_temp/models/responses/array_response.dart';
 import 'package:retrofit/retrofit.dart';
 
 import '../common/app_config.dart';

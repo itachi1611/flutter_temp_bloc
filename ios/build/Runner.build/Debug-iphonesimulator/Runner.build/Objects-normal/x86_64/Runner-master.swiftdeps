@@ -1,0 +1,6 @@
+version: "Apple Swift version 5.7.1 (swiftlang-5.7.1.135.3 clang-1400.0.29.51)"
+options: "3c83ceaacd757817277340af44bb1233883020fb0a2b36ffa9ec984ce1a22722"
+build_start_time: [1672219271, 140233039]
+build_end_time: [1672219271, 258937835]
+inputs:
+  "/Users/namnt/_nws/src/flutter_temp_bloc/ios/Runner/AppDelegate.swift": !private [1671423082, 855474472]

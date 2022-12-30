@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_temp/database/app_shared_preference.dart';
 import 'package:flutter_temp/main.dart';
 import 'package:flutter_temp/utils/app_info.dart';
-import 'package:logger/logger.dart';
 
 part 'splash_state.dart';
 

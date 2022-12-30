@@ -1,0 +1,6 @@
+version: "Apple Swift version 5.7.1 (swiftlang-5.7.1.135.3 clang-1400.0.29.51)"
+options: "3c217badfa0a09acd7bd365faa393cc7a17c2b5128f035ebd8b4ed4d321fd32d"
+build_start_time: [1672219219, 398055076]
+build_end_time: [1672219223, 132287979]
+inputs:
+  "/Users/namnt/_nws/src/flutter_temp_bloc/ios/Pods/ReachabilitySwift/Sources/Reachability.swift": [1672212363, 901790618]

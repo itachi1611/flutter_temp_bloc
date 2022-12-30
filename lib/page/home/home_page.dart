@@ -1,16 +1,16 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:firebase_performance/firebase_performance.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_temp/common/app_enums.dart';
-import 'package:flutter_temp/generated/l10n.dart';
+import 'package:flutter_temp/ext/widget_ext.dart';
 import 'package:flutter_temp/main.dart';
+import 'package:flutter_temp/page/setting/setting_page.dart';
 import 'package:flutter_temp/utils/app_connection.dart';
-import 'package:flutter_temp/utils/app_flush_bar.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import '../../app/app_cubit.dart';
 import '../../utils/app_dialog.dart';
-import '../../utils/app_logger.dart';
 import '../../utils/app_permission.dart';
 import 'home_cubit.dart';
 
@@ -32,7 +32,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    _appCubit = BlocProvider.of<AppCubit>(context);
+    _appCubit = BlocProvider.of<AppCubit>(context)..setListLang();
     _homeCubit = HomeCubit();
 
     _networkConnectivity.initialise();
@@ -42,10 +42,14 @@ class _HomePageState extends State<HomePage> {
       appLogger.i('source $_source');
       switch (_source.keys.toList()[0]) {
         case ConnectivityResult.mobile:
-          _appCubit.setConnectionStatus(_source.values.toList()[0] ? ConnectionStatus.mobileOnline : ConnectionStatus.mobileOffline);
+          _appCubit.setConnectionStatus(_source.values.toList()[0]
+              ? ConnectionStatus.mobileOnline
+              : ConnectionStatus.mobileOffline);
           break;
         case ConnectivityResult.wifi:
-          _appCubit.setConnectionStatus(_source.values.toList()[0] ? ConnectionStatus.wifiOnline : ConnectionStatus.wifiOffline);
+          _appCubit.setConnectionStatus(_source.values.toList()[0]
+              ? ConnectionStatus.wifiOnline
+              : ConnectionStatus.wifiOffline);
           break;
         case ConnectivityResult.none:
         default:
@@ -60,81 +64,96 @@ class _HomePageState extends State<HomePage> {
         actionGranted: onGranted,
         actionDenied: onDenied);
     onCheckPermission();
+
+    onTrace();
   }
 
-  void onCheckPermission() async => await appPermission.onHandlePermissionStatus();
+  void onTrace() async {
+    Trace trace = performance!.newTrace('custom-trace');
+
+    await trace.start();
+
+    // Set metrics you wish to track
+    trace.setMetric('sum', 200);
+    trace.setMetric('time', 342340435);
+
+    // `sum` will be incremented to 201
+    trace.incrementMetric('sum', 1);
+
+    trace.putAttribute('userId', '1234');
+
+    trace.stop();
+  }
+
+  void onCheckPermission() async =>
+      await appPermission.onHandlePermissionStatus();
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
         backgroundColor: Theme.of(context).colorScheme.background,
-        body: BlocConsumer<AppCubit, AppState>(
+        body: BlocListener<AppCubit, AppState>(
           bloc: _appCubit,
-          listener: (context, state) {
-            switch(state.connectionStatus) {
-              case ConnectionStatus.mobileOffline:
-              case ConnectionStatus.wifiOffline:
-              case ConnectionStatus.offline:
-                // AppFlushBar.showFlushBar(context, message: state.connectionStatus?.message.toString().trim(), type: FlushType.error);
-                AppDialog.showCustomDialog(context,title: 'test', content: 'contentttttt');
-                break;
-              case ConnectionStatus.mobileOnline:
-              case ConnectionStatus.wifiOnline:
-              default:
-                // AppFlushBar.showFlushBar(context, message: state.connectionStatus?.message.toString().trim(), type: FlushType.success);
-                AppDialog.showCustomDialog(context,title: 'test', content: 'contentttttt');
-                break;
-            }
-          },
-          listenWhen: (pre, cur) => pre.connectionStatus != cur.connectionStatus,
-          builder: (context, state) {
-            return Column(
-              children: [
-                Switch(
-                  inactiveThumbColor: Colors.green,
-                  inactiveTrackColor: Colors.pink[200],
-                  activeColor: Colors.blue,
-                  activeTrackColor: Colors.pink[200],
-                  value: state.themeMode == ThemeMode.light ? true : false,
-                  onChanged: (val) {
-                    _appCubit.onChangeSwitch(val);
-                  },
-                ),
-                BlocBuilder<HomeCubit, HomeState>(
-                  bloc: _homeCubit,
-                  builder: (context, state) {
-                    return DropdownButton(
-                      items: state.lists!
-                          .map<DropdownMenuItem<String>>((e) => DropdownMenuItem(value: e, child: Text(e)))
-                          .toList(),
-                      onChanged: (val) {
-                        _appCubit.setLocale(val);
-                      },
-                    );
-                  },
-                ),
-                Text(S.current.title),
-              ],
-            );
-          },
+          listener: (context, state) =>
+              onConnectionChangedListener(state.connectionStatus),
+          listenWhen: (pre, cur) =>
+              pre.connectionStatus != cur.connectionStatus,
+          child: BlocBuilder<HomeCubit, HomeState>(
+            bloc: _homeCubit,
+            buildWhen: (pre, cur) => pre.loadStatus != cur.loadStatus,
+            builder: (context, state) {
+              switch (state.loadStatus) {
+                case LoadStatus.loading:
+                  return const CircularProgressIndicator().center;
+                case LoadStatus.fail:
+                  return const Text('Load fail').center;
+                case LoadStatus.success:
+                default:
+                  return SettingPage(appCubit: _appCubit);
+              }
+            },
+          ),
         ),
       ),
     );
   }
 
-  void onGranted() {
-    AppLogger.instance.i('granted');
-  }
+  void onGranted() => appLogger.i('granted');
 
-  void onDenied() {
-    AppLogger.instance.i('denied');
+  void onDenied() => appLogger.i('denied');
+
+  void onConnectionChangedListener(ConnectionStatus? connectionStatus) {
+    switch (connectionStatus) {
+      case ConnectionStatus.mobileOffline:
+      case ConnectionStatus.wifiOffline:
+      case ConnectionStatus.offline:
+        // AppFlushBar.showFlushBar(context, message: state.connectionStatus?.message.toString().trim(), type: FlushType.error);
+        AppDialog.showCustomDialog(context,
+            title: 'test',
+            content: 'contentttttt',
+            barrierDismissible: true,
+            barrierLabel: '');
+        break;
+      case ConnectionStatus.mobileOnline:
+      case ConnectionStatus.wifiOnline:
+      default:
+        // AppFlushBar.showFlushBar(context, message: state.connectionStatus?.message.toString().trim(), type: FlushType.success);
+        AppDialog.showCustomDialog(context,
+            title: 'test',
+            content: 'contentttttt',
+            barrierDismissible: true,
+            barrierLabel: '');
+        break;
+    }
   }
 
   @override
   void dispose() {
     _networkConnectivity.disposeStream();
     appPermission.dispose();
+    _homeCubit.close();
+    _appCubit.close();
     super.dispose();
   }
 }

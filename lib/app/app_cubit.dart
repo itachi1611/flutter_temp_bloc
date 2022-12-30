@@ -31,6 +31,8 @@ class AppCubit extends HydratedCubit<AppState> {
     }
   }
 
+  void setListLang() => emit(state.copyWith(lists: ['Eng', 'Vie', 'Jap']));
+
   @override
   AppState? fromJson(Map<String, dynamic> json) {
     var mode = json['themeMode'];

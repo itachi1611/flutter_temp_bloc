@@ -2,21 +2,21 @@ part of 'home_cubit.dart';
 
 class HomeState extends Equatable {
   const HomeState({
-    this.lists,
+    this.loadStatus,
   });
 
-  final List<String>? lists;
+  final LoadStatus? loadStatus;
 
   HomeState copyWith({
-    List<String>? lists,
+    LoadStatus? loadStatus,
   }) {
     return HomeState(
-      lists: lists ?? this.lists,
+      loadStatus: loadStatus ?? this.loadStatus,
     );
   }
 
   @override
   List<Object?> get props => [
-        lists,
+        loadStatus,
       ];
 }

@@ -1,6 +1,5 @@
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter_temp/database/app_shared_preference.dart';
-import 'package:flutter_temp/main.dart';
 
 class AppInfo {
   AppInfo._();
@@ -16,13 +15,13 @@ class AppInfo {
 
     AppSharedPreference.saveDeviceInfo(allInfo);
 
-    AndroidDeviceInfo androidInfo = await deviceInfoPlugin.androidInfo;
-    appLogger.i('Running on ${androidInfo.model}');  // e.g. "Moto G (4)"
-
-    IosDeviceInfo iosInfo = await deviceInfoPlugin.iosInfo;
-    appLogger.i('Running on ${iosInfo.utsname.machine}');  // e.g. "iPod7,1"
-
-    WebBrowserInfo webBrowserInfo = await deviceInfoPlugin.webBrowserInfo;
-    appLogger.i('Running on ${webBrowserInfo.userAgent}');
+    // AndroidDeviceInfo? androidInfo = await deviceInfoPlugin.androidInfo;
+    // appLogger.i('Running on ${androidInfo?.model}');  // e.g. "Moto G (4)"
+    //
+    // IosDeviceInfo? iosInfo = await deviceInfoPlugin.iosInfo;
+    // appLogger.i('Running on ${iosInfo?.utsname.machine}');  // e.g. "iPod7,1"
+    //
+    // WebBrowserInfo? webBrowserInfo = await deviceInfoPlugin.webBrowserInfo;
+    // appLogger.i('Running on ${webBrowserInfo?.userAgent}');
   }
 }
