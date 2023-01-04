@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_performance/firebase_performance.dart';
+import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_displaymode/flutter_displaymode.dart';
@@ -18,14 +19,22 @@ final appLogger = AppLogger.instance;
 
 FirebasePerformance? performance;
 
+FirebaseRemoteConfig? remoteConfig;
+
 Future<void> main() async {
   /// Initialize packages
   WidgetsFlutterBinding.ensureInitialized();
 
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
-  ).whenComplete(() {
+  ).whenComplete(() async {
     performance = FirebasePerformance.instance;
+    remoteConfig = FirebaseRemoteConfig.instance;
+
+    await remoteConfig!.setConfigSettings(RemoteConfigSettings(
+      fetchTimeout: const Duration(minutes: 1),
+      minimumFetchInterval: const Duration(hours: 1),
+    ));
   });
 
   /// Set higher display refresh rate for Android target
@@ -37,9 +46,7 @@ Future<void> main() async {
   final Directory tmpDir = await getTemporaryDirectory();
   Hive.init(tmpDir.toString());
   HydratedBloc.storage = await HydratedStorage.build(
-    storageDirectory: kIsWeb
-        ? HydratedStorage.webStorageDirectory
-        : tmpDir,
+    storageDirectory: kIsWeb ? HydratedStorage.webStorageDirectory : tmpDir,
   );
 
   Hive.init(tmpDir.path.toString());

@@ -12,6 +12,7 @@ import 'package:permission_handler/permission_handler.dart';
 import '../../app/app_cubit.dart';
 import '../../utils/app_dialog.dart';
 import '../../utils/app_permission.dart';
+import '../test/test_page.dart';
 import 'home_cubit.dart';
 
 class HomePage extends StatefulWidget {
@@ -110,7 +111,7 @@ class _HomePageState extends State<HomePage> {
                   return const Text('Load fail').center;
                 case LoadStatus.success:
                 default:
-                  return SettingPage(appCubit: _appCubit);
+                  return const TestPage();
               }
             },
           ),
@@ -139,11 +140,11 @@ class _HomePageState extends State<HomePage> {
       case ConnectionStatus.wifiOnline:
       default:
         // AppFlushBar.showFlushBar(context, message: state.connectionStatus?.message.toString().trim(), type: FlushType.success);
-        AppDialog.showCustomDialog(context,
-            title: 'test',
-            content: 'contentttttt',
-            barrierDismissible: true,
-            barrierLabel: '');
+        // AppDialog.showCustomDialog(context,
+        //     title: 'test',
+        //     content: 'contentttttt',
+        //     barrierDismissible: true,
+        //     barrierLabel: '');
         break;
     }
   }
