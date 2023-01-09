@@ -28,4 +28,8 @@ extension WidgetExtension on Widget {
   Widget get expand => Expanded(child: this);
 
   Widget get center => Center(child: this);
+
+  Widget inkwell(VoidCallback onTap) => InkWell(onTap: onTap, child: this);
+
+  Widget gesture(VoidCallback onTap) => GestureDetector(onTap: onTap, child: this);
 }

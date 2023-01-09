@@ -40,40 +40,41 @@ This repository requires [Flutter](https://flutter.dev/docs/get-started/install)
 
 This repository makes use of the following pub packages:
 
-| Package                                                                   | Usage                                                |
-|---------------------------------------------------------------------------|------------------------------------------------------|
-| [Intl](https://pub.dev/packages/intl)                                     | Multi language*                                      |
-| [Intl Utils](https://pub.dev/packages/intl_utils)                         | Multi language utils*                                |
-| [Bloc](https://pub.dev/packages/bloc)                                     | State management*                                    |
-| [Flutter Bloc](https://pub.dev/packages/flutter_bloc)                     | State management*                                    |
-| [Hydrated Bloc](https://pub.dev/packages/hydrated_bloc)                   | Persists Bloc state with Hive                        |
-| [Hive](https://pub.dev/packages/hive)                                     | Platform independent storage                         |
-| [Hive Generator](https://pub.dev/packages/hive_generator)                 | Platform independent storage support                 |
-| [Shared Preferences](https://pub.dev/packages/shared_preferences)         | Shared preferences storage                           |
-| [Url Launcher](https://pub.dev/packages/url_launcher)                     | Open urls in Browser                                 |
-| [Flutter Display Mode](https://pub.dev/packages/flutter_displaymode)      | Support high refresh rate displays                   |
-| [Path Provider](https://pub.dev/packages/path_provider)                   | Get the save path for Hive                           |
-| [Permission Handler](https://pub.dev/packages/permission_handler)         | Handler app permission                               |
-| [Google Fonts](https://pub.dev/packages/google_fonts)                     | Fonts provided by google                             |
-| [Connectivity Plus](https://pub.dev/packages/connectivity_plus)           | Check internet's connection status                   |
-| [Retrofit](https://pub.dev/packages/retrofit)                             | Retrofit                                             |
-| [Dio](https://pub.dev/packages/dio)                                       | Retrofit                                             |
-| [Another Flushbar](https://pub.dev/packages/another_flushbar)             | Flushbar                                             |
-| [Animated Snack Bar](https://pub.dev/packages/animated_snack_bar)         | Animated Snack bar                                   |
-| [Firebase Core](https://pub.dev/packages/firebase_core)                   | Firebase core                                        |
-| [Firebase Analytics](https://pub.dev/packages/firebase_analytics)         | Firebase analytics                                   |
-| [Equatable](https://pub.dev/packages/equatable)                           | Easily compare custom classes, used for Bloc states* |
-| [Logger](https://pub.dev/packages/logger)                                 | Custom logger                                        |
-| [Device Info Plus](https://pub.dev/packages/device_info_plus)             | Get device information                               |
-| [English Word](https://pub.dev/packages/english_words)                    | Generate english words                               |
-| [Splash View](https://pub.dev/packages/splash_view)                       | Custom splash screen                                 |
-| [Cupertino Icons](https://pub.dev/packages/cupertino_icons)               | Cupertino icons                                      |
-| [Flutter Lints](https://pub.dev/packages/flutter_lints)                   | Stricter linting rules                               |
-| [Retrofit Generator](https://pub.dev/packages/retrofit_generator)         | Generation for retrofit                              |
-| [Json Serializable](https://pub.dev/packages/json_serializable)           | Handling JSON                                        |
-| [Json Annotation](https://pub.dev/packages/json_annotation)               | Json Annotation                                      |
-| [Hive Generator](https://pub.dev/packages/hive_generator)                 | Hive generator tool                                  |
-| [Build Runner](https://pub.dev/packages/build_runner)                     | Standalone generator and watcher for Dart            |
+| Package                                                              | Usage                                                |
+|----------------------------------------------------------------------|------------------------------------------------------|
+| [Intl](https://pub.dev/packages/intl)                                | Multi language*                                      |
+| [Intl Utils](https://pub.dev/packages/intl_utils)                    | Multi language utils*                                |
+| [Bloc](https://pub.dev/packages/bloc)                                | State management*                                    |
+| [Flutter Bloc](https://pub.dev/packages/flutter_bloc)                | State management*                                    |
+| [Hydrated Bloc](https://pub.dev/packages/hydrated_bloc)              | Persists Bloc state with Hive                        |
+| [Hive](https://pub.dev/packages/hive)                                | Platform independent storage                         |
+| [Hive Generator](https://pub.dev/packages/hive_generator)            | Platform independent storage support                 |
+| [Shared Preferences](https://pub.dev/packages/shared_preferences)    | Shared preferences storage                           |
+| [Url Launcher](https://pub.dev/packages/url_launcher)                | Open urls in Browser                                 |
+| [Flutter Display Mode](https://pub.dev/packages/flutter_displaymode) | Support high refresh rate displays                   |
+| [Path Provider](https://pub.dev/packages/path_provider)              | Get the save path for Hive                           |
+| [Permission Handler](https://pub.dev/packages/permission_handler)    | Handler app permission                               |
+| [Google Fonts](https://pub.dev/packages/google_fonts)                | Fonts provided by google                             |
+| [Connectivity Plus](https://pub.dev/packages/connectivity_plus)      | Check internet's connection status                   |
+| [Retrofit](https://pub.dev/packages/retrofit)                        | Retrofit                                             |
+| [Dio](https://pub.dev/packages/dio)                                  | Retrofit                                             |
+| [Another Flushbar](https://pub.dev/packages/another_flushbar)        | Flushbar                                             |
+| [Animated Snack Bar](https://pub.dev/packages/animated_snack_bar)    | Animated Snack bar                                   |
+| [Firebase Core](https://pub.dev/packages/firebase_core)              | Firebase core                                        |
+| [Firebase Analytics](https://pub.dev/packages/firebase_analytics)    | Firebase analytics                                   |
+| [Equatable](https://pub.dev/packages/equatable)                      | Easily compare custom classes, used for Bloc states* |
+| [Logger](https://pub.dev/packages/logger)                            | Custom logger                                        |
+| [Device Info Plus](https://pub.dev/packages/device_info_plus)        | Get device information                               |
+| [English Word](https://pub.dev/packages/english_words)               | Generate english words                               |
+| [Splash View](https://pub.dev/packages/splash_view)                  | Custom splash screen                                 |
+| [Cupertino Icons](https://pub.dev/packages/cupertino_icons)          | Cupertino icons                                      |
+| [Flutter Lints](https://pub.dev/packages/flutter_lints)              | Stricter linting rules                               |
+| [Retrofit Generator](https://pub.dev/packages/retrofit_generator)    | Generation for retrofit                              |
+| [Json Serializable](https://pub.dev/packages/json_serializable)      | Handling JSON                                        |
+| [Json Annotation](https://pub.dev/packages/json_annotation)          | Json Annotation                                      |
+| [Hive Generator](https://pub.dev/packages/hive_generator)            | Hive generator tool                                  |
+| [Build Runner](https://pub.dev/packages/build_runner)                | Standalone generator and watcher for Dart            |
+| [Animations](https://pub.dev/packages/animations)                    | Flutter pre-build animations collection              |
 > \* Recommended to keep regardless of your project
 
 ## Changing the package and app name

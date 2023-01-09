@@ -31,18 +31,20 @@ class _TestPageState extends State<TestPage> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => cubit,
-      child: BlocBuilder<TestCubit, TestState>(
-        buildWhen: (pre, cur) => pre.loadStatus != cur.loadStatus,
-        builder: (context, state) {
-          switch (state.loadStatus) {
-            case LoadStatus.loading:
-              return const CircularProgressIndicator().center;
-            case LoadStatus.fail:
-              return const Text('Load fail').center;
-            default:
-              return _success;
-          }
-        },
+      child: Scaffold(
+        body: BlocBuilder<TestCubit, TestState>(
+          buildWhen: (pre, cur) => pre.loadStatus != cur.loadStatus,
+          builder: (context, state) {
+            switch (state.loadStatus) {
+              case LoadStatus.loading:
+                return const CircularProgressIndicator().center;
+              case LoadStatus.fail:
+                return const Text('Load fail').center;
+              default:
+                return _success;
+            }
+          },
+        ),
       ),
     );
   }

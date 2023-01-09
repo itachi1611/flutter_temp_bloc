@@ -1,18 +1,19 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:firebase_performance/firebase_performance.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_temp/common/app_enums.dart';
+import 'package:flutter_temp/ext/loading_animation_ext.dart';
 import 'package:flutter_temp/ext/widget_ext.dart';
 import 'package:flutter_temp/main.dart';
-import 'package:flutter_temp/page/setting/setting_page.dart';
 import 'package:flutter_temp/utils/app_connection.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../app/app_cubit.dart';
-import '../../utils/app_dialog.dart';
+import '../../utils/app_flush_bar.dart';
 import '../../utils/app_permission.dart';
-import '../test/test_page.dart';
+import '../../utils/app_utils.dart';
 import 'home_cubit.dart';
 
 class HomePage extends StatefulWidget {
@@ -40,7 +41,7 @@ class _HomePageState extends State<HomePage> {
 
     _networkConnectivity.myStream.listen((source) {
       _source = source;
-      appLogger.i('source $_source');
+      logger.i('source $_source');
       switch (_source.keys.toList()[0]) {
         case ConnectivityResult.mobile:
           _appCubit.setConnectionStatus(_source.values.toList()[0]
@@ -65,29 +66,9 @@ class _HomePageState extends State<HomePage> {
         actionGranted: onGranted,
         actionDenied: onDenied);
     onCheckPermission();
-
-    onTrace();
   }
 
-  void onTrace() async {
-    Trace trace = performance!.newTrace('custom-trace');
-
-    await trace.start();
-
-    // Set metrics you wish to track
-    trace.setMetric('sum', 200);
-    trace.setMetric('time', 342340435);
-
-    // `sum` will be incremented to 201
-    trace.incrementMetric('sum', 1);
-
-    trace.putAttribute('userId', '1234');
-
-    trace.stop();
-  }
-
-  void onCheckPermission() async =>
-      await appPermission.onHandlePermissionStatus();
+  void onCheckPermission() async => await appPermission.onHandlePermissionStatus();
 
   @override
   Widget build(BuildContext context) {
@@ -96,10 +77,8 @@ class _HomePageState extends State<HomePage> {
         backgroundColor: Theme.of(context).colorScheme.background,
         body: BlocListener<AppCubit, AppState>(
           bloc: _appCubit,
-          listener: (context, state) =>
-              onConnectionChangedListener(state.connectionStatus),
-          listenWhen: (pre, cur) =>
-              pre.connectionStatus != cur.connectionStatus,
+          listener: (context, state) => onConnectionChangedListener(state.connectionStatus),
+          listenWhen: (pre, cur) => pre.connectionStatus != cur.connectionStatus,
           child: BlocBuilder<HomeCubit, HomeState>(
             bloc: _homeCubit,
             buildWhen: (pre, cur) => pre.loadStatus != cur.loadStatus,
@@ -111,7 +90,7 @@ class _HomePageState extends State<HomePage> {
                   return const Text('Load fail').center;
                 case LoadStatus.success:
                 default:
-                  return const TestPage();
+                  return _launcherWidget;
               }
             },
           ),
@@ -120,33 +99,62 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  void onGranted() => appLogger.i('granted');
+  void onGranted() => logger.i('granted');
 
-  void onDenied() => appLogger.i('denied');
+  void onDenied() => logger.i('denied');
 
   void onConnectionChangedListener(ConnectionStatus? connectionStatus) {
     switch (connectionStatus) {
       case ConnectionStatus.mobileOffline:
       case ConnectionStatus.wifiOffline:
       case ConnectionStatus.offline:
-        // AppFlushBar.showFlushBar(context, message: state.connectionStatus?.message.toString().trim(), type: FlushType.error);
-        AppDialog.showCustomDialog(context,
-            title: 'test',
-            content: 'contentttttt',
-            barrierDismissible: true,
-            barrierLabel: '');
+        AppFlushBar.showFlushBar(context, message: connectionStatus?.message.toString().trim(), type: FlushType.error);
         break;
       case ConnectionStatus.mobileOnline:
       case ConnectionStatus.wifiOnline:
       default:
-        // AppFlushBar.showFlushBar(context, message: state.connectionStatus?.message.toString().trim(), type: FlushType.success);
-        // AppDialog.showCustomDialog(context,
-        //     title: 'test',
-        //     content: 'contentttttt',
-        //     barrierDismissible: true,
-        //     barrierLabel: '');
         break;
     }
+  }
+
+  Widget get _loadingWidget {
+    var listTitle = LoadingAnimationType.values.map((e) => e.title).toList();
+    var list = LoadingAnimationType.values.map((e) => e.loadingWidget).toList();
+    return GridView.builder(
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 3,
+          crossAxisSpacing: 8.0,
+          mainAxisSpacing: 8.0
+      ),
+      itemBuilder: (context, index) {
+        return Container(
+          padding: const EdgeInsets.all(8.0),
+          decoration: BoxDecoration(
+            color: Colors.pinkAccent,
+            border: Border.all(color: Colors.grey),
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Text(listTitle[index], style: GoogleFonts.sourceCodePro(fontSize: 10)),
+              list[index],
+            ],
+          ),
+        );
+      },
+      itemCount: list.length,
+    );
+  }
+
+  Widget get _launcherWidget {
+    return Column(
+      children: [
+        const Text('Sms').inkwell(() => AppUtils.onLaunchExternalApp(externalType: LaunchExternalType.sms, data: "+1234567890")),
+        const Text('Tel').inkwell(() => AppUtils.onLaunchExternalApp(externalType: LaunchExternalType.tel, data: "+1234567890")),
+        const Text('Email').inkwell(() async => AppUtils.onLaunchExternalApp(externalType: LaunchExternalType.mail, data: "+1234567890")),
+        const Text('WebView').inkwell(() => AppUtils.onLaunchExternalApp(externalType: LaunchExternalType.webview, data: "www.github.com/mustafatahirhussein")),
+      ],
+    );
   }
 
   @override

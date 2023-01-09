@@ -26,6 +26,7 @@ class _SplashPageState extends State<SplashPage> {
 
   @override
   void dispose() {
+    _splashCubit.close();
     super.dispose();
   }
 

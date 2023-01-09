@@ -1,11 +1,10 @@
 import 'dart:io';
 
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_performance/firebase_performance.dart';
-import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_displaymode/flutter_displaymode.dart';
+import 'package:flutter_temp/database/app_shared_preference.dart';
 import 'package:flutter_temp/utils/app_logger.dart';
 import 'package:hive/hive.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
@@ -15,11 +14,8 @@ import 'app/app_page.dart';
 import 'firebase_options.dart';
 import 'models/m.hive/user.dart';
 
-final appLogger = AppLogger.instance;
+final logger = AppLogger.instance;
 
-FirebasePerformance? performance;
-
-FirebaseRemoteConfig? remoteConfig;
 
 Future<void> main() async {
   /// Initialize packages
@@ -28,13 +24,7 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   ).whenComplete(() async {
-    performance = FirebasePerformance.instance;
-    remoteConfig = FirebaseRemoteConfig.instance;
 
-    await remoteConfig!.setConfigSettings(RemoteConfigSettings(
-      fetchTimeout: const Duration(minutes: 1),
-      minimumFetchInterval: const Duration(hours: 1),
-    ));
   });
 
   /// Set higher display refresh rate for Android target
@@ -51,6 +41,8 @@ Future<void> main() async {
 
   Hive.init(tmpDir.path.toString());
   Hive.registerAdapter(UserAdapter());
+
+  AppSharedPreference.init();
 
   runApp(const AppPage());
 }

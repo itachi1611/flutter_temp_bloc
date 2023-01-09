@@ -22,7 +22,7 @@ class AppConnection {
     ConnectivityResult result = await _networkConnectivity.checkConnectivity();
     _checkStatus(result);
     _networkConnectivity.onConnectivityChanged.listen((result) {
-      appLogger.i(result);
+      logger.i(result);
       _checkStatus(result);
     });
   }

@@ -21,11 +21,11 @@ class AppDialog {
             content: Text(content),
             actions: [
               InkWell(
-                onTap: () => appLogger.i('title'),
+                onTap: () => logger.i('title'),
                 child: const Text('Ok'),
               ),
               InkWell(
-                onTap: () => appLogger.i('title'),
+                onTap: () => logger.i('title'),
                 child: const Text('Cancel'),
               ),
             ],
@@ -41,11 +41,11 @@ class AppDialog {
             content: Text(content),
             actions: [
               InkWell(
-                onTap: () => appLogger.i('title'),
+                onTap: () => logger.i('title'),
                 child: const Text('Ok'),
               ),
               InkWell(
-                onTap: () => appLogger.i('title'),
+                onTap: () => logger.i('title'),
                 child: const Text('Cancel'),
               ),
             ],

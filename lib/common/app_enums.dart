@@ -42,3 +42,47 @@ enum ButtonType {
   elevated,
   outlined,
 }
+
+enum FirstRunNavigationType {
+  firstRun,
+  notFirstRun,
+}
+
+enum LoadingAnimationType {
+  beat('beat'),
+  bouncingBall('bouncingBall'),
+  discreteCircle('discreteCircle'),
+  dotsTriangle('dotsTriangle'),
+  fallingDot('fallingDot'),
+  flickr('flickr'),
+  fourRotatingDots('fourRotatingDots'),
+  halfTriangleDot('halfTriangleDot'),
+  hexagonDots('hexagonDots'),
+  horizontalRotatingDots('horizontalRotatingDots'),
+  inkDrop('inkDrop'),
+  newtonCradle('newtonCradle'),
+  prograssiveDots('prograssiveDots'),
+  staggeredDotsWave('staggeredDotsWave'),
+  stretchedDots('stretchedDots'),
+  threeArchedCircle('threeArchedCircle'),
+  threeRotatingDots('threeRotatingDots'),
+  twistingDots('twistingDots'),
+  twoRotatingArc('twoRotatingArc'),
+  waveDots('waveDots');
+
+  final String title;
+
+  const LoadingAnimationType(this.title);
+}
+
+enum LaunchExternalType {
+  sms('sms'),
+  tel('tel'),
+  mail('mailto'),
+  webview('https'),
+  file('file');
+
+  final String type;
+
+  const LaunchExternalType(this.type);
+}

@@ -1,6 +1,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:english_words/english_words.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter_temp/common/app_constants.dart';
+import 'package:flutter_temp/database/app_shared_preference.dart';
 
 import '../../common/app_enums.dart';
 
@@ -19,6 +21,7 @@ class TestCubit extends Cubit<TestState> {
         lists.add(nouns.take(5).map((e) => e.split(' ')).toString());
       }
     }
+    AppSharedPreference.setSharedPrefConfig(AppConstants.firstRun, false);
     emit(state.copyWith(loadStatus: LoadStatus.success, tests: lists, isMultiOn: false, isOnlyOn: false));
   }
 
