@@ -18,6 +18,7 @@ class SharedAxisTransitionWrapper extends StatelessWidget {
   }) : super(key: key);
 
   final bool isReverse;
+
   /// Creates a shared axis vertical (y-axis) page transition. vertical,
   /// Creates a shared axis horizontal (x-axis) page transition. horizontal,
   /// Creates a shared axis scaled (z-axis) page transition. scaled,
@@ -27,6 +28,7 @@ class SharedAxisTransitionWrapper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PageTransitionSwitcher(
+      duration: const Duration(milliseconds: 350),
       reverse: isReverse,
       transitionBuilder: (
         Widget child,

@@ -36,7 +36,7 @@ class _MainPageState extends State<MainPage> {
       bloc: _cubit,
       listener: (context, state) {
         if(state.navigationType == FirstRunNavigationType.firstRun) {
-          Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) => const TestPage()));
+          Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) => const TestPage(textColor: Colors.green)));
         } else if(state.navigationType == FirstRunNavigationType.notFirstRun) {
           Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) => const HomePage()));
         }

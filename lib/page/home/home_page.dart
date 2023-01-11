@@ -1,3 +1,4 @@
+import 'package:animations/animations.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -5,15 +6,15 @@ import 'package:flutter_temp/common/app_enums.dart';
 import 'package:flutter_temp/ext/loading_animation_ext.dart';
 import 'package:flutter_temp/ext/widget_ext.dart';
 import 'package:flutter_temp/main.dart';
+import 'package:flutter_temp/page/test/test_page.dart';
+import 'package:flutter_temp/page/widgets/flutter_animation_pre_build/shared_axis_transition_wrapper.dart';
 import 'package:flutter_temp/utils/app_connection.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import '../../app/app_cubit.dart';
 import '../../utils/app_flush_bar.dart';
 import '../../utils/app_permission.dart';
-import '../../utils/app_utils.dart';
 import 'home_cubit.dart';
 
 class HomePage extends StatefulWidget {
@@ -27,6 +28,12 @@ class _HomePageState extends State<HomePage> {
   late final AppCubit _appCubit;
   late final HomeCubit _homeCubit;
   late final AppPermission appPermission;
+
+  final _listPages = [
+    const TestPage(textColor: Colors.blue, key: ValueKey(0)),
+    const TestPage(textColor: Colors.green, key: ValueKey(1)),
+    const TestPage(textColor: Colors.red, key: ValueKey(2)),
+  ];
 
   Map _source = {ConnectivityResult.none: false};
   final AppConnection _networkConnectivity = AppConnection.instance;
@@ -68,20 +75,21 @@ class _HomePageState extends State<HomePage> {
     onCheckPermission();
   }
 
-  void onCheckPermission() async => await appPermission.onHandlePermissionStatus();
+  void onCheckPermission() async =>
+      await appPermission.onHandlePermissionStatus();
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Scaffold(
-        backgroundColor: Theme.of(context).colorScheme.background,
-        body: BlocListener<AppCubit, AppState>(
-          bloc: _appCubit,
-          listener: (context, state) => onConnectionChangedListener(state.connectionStatus),
-          listenWhen: (pre, cur) => pre.connectionStatus != cur.connectionStatus,
-          child: BlocBuilder<HomeCubit, HomeState>(
+      child: BlocListener<AppCubit, AppState>(
+        bloc: _appCubit,
+        listener: (context, state) => onConnectionChangedListener(state.connectionStatus),
+        listenWhen: (pre, cur) => pre.connectionStatus != cur.connectionStatus,
+        child: Scaffold(
+          backgroundColor: Theme.of(context).colorScheme.background,
+          body: BlocBuilder<HomeCubit, HomeState>(
             bloc: _homeCubit,
-            buildWhen: (pre, cur) => pre.loadStatus != cur.loadStatus,
+            buildWhen: (pre, cur) => pre.loadStatus != cur.loadStatus || pre.currentIndex != cur.currentIndex,
             builder: (context, state) {
               switch (state.loadStatus) {
                 case LoadStatus.loading:
@@ -90,8 +98,38 @@ class _HomePageState extends State<HomePage> {
                   return const Text('Load fail').center;
                 case LoadStatus.success:
                 default:
-                  return _launcherWidget;
+                  return SharedAxisTransitionWrapper(
+                    isReverse: true,
+                    transitionType: SharedAxisTransitionType.scaled,
+                    target: _listPages[state.currentIndex],
+                  );
               }
+            },
+          ),
+          bottomNavigationBar: BlocBuilder<HomeCubit, HomeState>(
+            bloc: _homeCubit,
+            buildWhen: (pre, cur) => pre.currentIndex != cur.currentIndex,
+            builder: (context, state) {
+              return BottomNavigationBar(
+                items: const <BottomNavigationBarItem>[
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.home),
+                    label: 'White',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.business),
+                    label: 'Red',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.school),
+                    label: 'Yellow',
+                  ),
+                ],
+                currentIndex: state.currentIndex,
+                onTap: (int index) {
+                  _homeCubit.onChangedIndex(index);
+                },
+              );
             },
           ),
         ),
@@ -108,7 +146,9 @@ class _HomePageState extends State<HomePage> {
       case ConnectionStatus.mobileOffline:
       case ConnectionStatus.wifiOffline:
       case ConnectionStatus.offline:
-        AppFlushBar.showFlushBar(context, message: connectionStatus?.message.toString().trim(), type: FlushType.error);
+        AppFlushBar.showFlushBar(context,
+            message: connectionStatus?.message.toString().trim(),
+            type: FlushType.error);
         break;
       case ConnectionStatus.mobileOnline:
       case ConnectionStatus.wifiOnline:
@@ -122,10 +162,7 @@ class _HomePageState extends State<HomePage> {
     var list = LoadingAnimationType.values.map((e) => e.loadingWidget).toList();
     return GridView.builder(
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 3,
-          crossAxisSpacing: 8.0,
-          mainAxisSpacing: 8.0
-      ),
+          crossAxisCount: 3, crossAxisSpacing: 8.0, mainAxisSpacing: 8.0),
       itemBuilder: (context, index) {
         return Container(
           padding: const EdgeInsets.all(8.0),
@@ -136,24 +173,14 @@ class _HomePageState extends State<HomePage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              Text(listTitle[index], style: GoogleFonts.sourceCodePro(fontSize: 10)),
+              Text(listTitle[index],
+                  style: GoogleFonts.sourceCodePro(fontSize: 10)),
               list[index],
             ],
           ),
         );
       },
       itemCount: list.length,
-    );
-  }
-
-  Widget get _launcherWidget {
-    return Column(
-      children: [
-        const Text('Sms').inkwell(() => AppUtils.onLaunchExternalApp(externalType: LaunchExternalType.sms, data: "+1234567890")),
-        const Text('Tel').inkwell(() => AppUtils.onLaunchExternalApp(externalType: LaunchExternalType.tel, data: "+1234567890")),
-        const Text('Email').inkwell(() async => AppUtils.onLaunchExternalApp(externalType: LaunchExternalType.mail, data: "+1234567890")),
-        const Text('WebView').inkwell(() => AppUtils.onLaunchExternalApp(externalType: LaunchExternalType.webview, data: "www.github.com/mustafatahirhussein")),
-      ],
     );
   }
 
