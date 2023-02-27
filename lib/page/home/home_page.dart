@@ -2,7 +2,9 @@ import 'package:animations/animations.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_temp/common/app_colors.dart';
 import 'package:flutter_temp/common/app_enums.dart';
+import 'package:flutter_temp/common/app_shadows.dart';
 import 'package:flutter_temp/ext/loading_animation_ext.dart';
 import 'package:flutter_temp/ext/widget_ext.dart';
 import 'package:flutter_temp/main.dart';
@@ -33,6 +35,7 @@ class _HomePageState extends State<HomePage> {
     const TestPage(textColor: Colors.blue, key: ValueKey(0)),
     const TestPage(textColor: Colors.green, key: ValueKey(1)),
     const TestPage(textColor: Colors.red, key: ValueKey(2)),
+    const TestPage(textColor: Colors.yellow, key: ValueKey(3))
   ];
 
   Map _source = {ConnectivityResult.none: false};
@@ -83,13 +86,16 @@ class _HomePageState extends State<HomePage> {
     return SafeArea(
       child: BlocListener<AppCubit, AppState>(
         bloc: _appCubit,
-        listener: (context, state) => onConnectionChangedListener(state.connectionStatus),
+        listener: (context, state) =>
+            onConnectionChangedListener(state.connectionStatus),
         listenWhen: (pre, cur) => pre.connectionStatus != cur.connectionStatus,
         child: Scaffold(
           backgroundColor: Theme.of(context).colorScheme.background,
           body: BlocBuilder<HomeCubit, HomeState>(
             bloc: _homeCubit,
-            buildWhen: (pre, cur) => pre.loadStatus != cur.loadStatus || pre.currentIndex != cur.currentIndex,
+            buildWhen: (pre, cur) =>
+                pre.loadStatus != cur.loadStatus ||
+                pre.currentIndex != cur.currentIndex,
             builder: (context, state) {
               switch (state.loadStatus) {
                 case LoadStatus.loading:
@@ -110,25 +116,51 @@ class _HomePageState extends State<HomePage> {
             bloc: _homeCubit,
             buildWhen: (pre, cur) => pre.currentIndex != cur.currentIndex,
             builder: (context, state) {
-              return BottomNavigationBar(
-                items: const <BottomNavigationBarItem>[
-                  BottomNavigationBarItem(
-                    icon: Icon(Icons.home),
-                    label: 'White',
+              return Container(
+                decoration: BoxDecoration(
+                  border: const Border(
+                    top: BorderSide(color: Colors.black, width: 0),
                   ),
-                  BottomNavigationBarItem(
-                    icon: Icon(Icons.business),
-                    label: 'Red',
+                  boxShadow: AppShadows.bottomNavigationBarShadow,
+                ),
+                child: BottomNavigationBar(
+                  items: _bottomBar,
+                  currentIndex: state.currentIndex,
+                  onTap: (int index) {
+                    _homeCubit.onChangedIndex(index);
+                  },
+                  elevation: 0,
+                  // When set type to shifting => consider set background color for each BottomNavigationBarItem
+                  // When set type to fixed => consider set background color at backgroundColor || fixedColor at BottomNavigationBar
+                  type: BottomNavigationBarType.fixed,
+                  backgroundColor: Colors.white,
+                  //fixedColor: Colors.orange.withOpacity(0.6),
+                  iconSize: 24,
+                  selectedItemColor: AppColors.navActiveItemColor,
+                  unselectedItemColor: AppColors.navUnActiveItemColor,
+                  selectedFontSize: 16,
+                  unselectedFontSize: 14,
+                  selectedLabelStyle: GoogleFonts.sourceCodePro(
+                    //fontSize: 20, // Override selectedFontSize attribute
+                    // color: Colors.white,
                   ),
-                  BottomNavigationBarItem(
-                    icon: Icon(Icons.school),
-                    label: 'Yellow',
+                  unselectedLabelStyle: GoogleFonts.sourceCodePro(
+                    //fontSize: 20, // Override unselectedFontSize attribute
+                    //color: Colors.purpleAccent,
                   ),
-                ],
-                currentIndex: state.currentIndex,
-                onTap: (int index) {
-                  _homeCubit.onChangedIndex(index);
-                },
+                  selectedIconTheme: const IconThemeData(
+                    color: AppColors.navActiveItemColor, // Override selectedItemColor attribute
+                    opacity: 0.8,
+                    size: 24, // Override iconSize attribute
+                  ),
+                  unselectedIconTheme: const IconThemeData(
+                    color: AppColors.navUnActiveItemColor, // Override unselectedItemColor attribute
+                    opacity: 0.8,
+                    size: 24, // Override iconSize attribute
+                  ),
+                  showUnselectedLabels: true,
+                  showSelectedLabels: true,
+                ),
               );
             },
           ),
@@ -183,6 +215,39 @@ class _HomePageState extends State<HomePage> {
       itemCount: list.length,
     );
   }
+
+  /// Component Widgets
+  List<BottomNavigationBarItem> get _bottomBar => [
+        const BottomNavigationBarItem(
+          icon: Icon(Icons.home_rounded),
+          activeIcon: Icon(Icons.home_max_rounded),
+          backgroundColor: Colors
+              .white, // Will be override if backgroundColor form BottomNavigationBar has been set
+          label: 'Home',
+          tooltip: 'Home',
+        ),
+        const BottomNavigationBarItem(
+          icon: Icon(Icons.flutter_dash_rounded),
+          activeIcon: Icon(Icons.flutter_dash_rounded),
+          backgroundColor: Colors.white,
+          label: 'Flutter School',
+          tooltip: 'Flutter School',
+        ),
+        const BottomNavigationBarItem(
+          icon: Icon(Icons.abc_rounded),
+          activeIcon: Icon(Icons.back_hand_rounded),
+          backgroundColor: Colors.white,
+          label: 'Testing',
+          tooltip: 'Testing',
+        ),
+        const BottomNavigationBarItem(
+          icon: Icon(Icons.settings_rounded),
+          activeIcon: Icon(Icons.settings_backup_restore_rounded),
+          backgroundColor: Colors.white,
+          label: 'Setting',
+          tooltip: 'Setting',
+        ),
+      ];
 
   @override
   void dispose() {
