@@ -33,7 +33,7 @@ extension LoadingAnimationExtension on LoadingAnimationType {
         return LoadingWidget.inkDrop(color: color, size: size);
       case LoadingAnimationType.newtonCradle:
         return LoadingWidget.newtonCradle(color: color, size: size);
-      case LoadingAnimationType.prograssiveDots:
+      case LoadingAnimationType.progressiveDots:
         return LoadingWidget.prograssiveDots(color: color, size: size);
       case LoadingAnimationType.staggeredDotsWave:
         return LoadingWidget.staggeredDotsWave(color: color, size: size);

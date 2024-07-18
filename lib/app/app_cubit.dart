@@ -1,6 +1,6 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_temp/common/app_enums.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 
 part 'app_state.dart';
@@ -8,7 +8,7 @@ part 'app_state.dart';
 class AppCubit extends HydratedCubit<AppState> {
   AppCubit() : super(const AppState());
 
-  void setConnectionStatus(ConnectionStatus connectionStatus) => emit(state.copyWith(connectionStatus: connectionStatus));
+  void setConnectionStatus(ConnectivityResult connectivityResult) => emit(state.copyWith(connectivityResult: connectivityResult));
 
   void onChangeSwitch(bool val) {
     emit(state.copyWith(themeMode: val ? ThemeMode.light : ThemeMode.dark));

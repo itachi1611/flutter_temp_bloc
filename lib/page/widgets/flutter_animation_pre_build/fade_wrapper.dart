@@ -11,10 +11,10 @@ import 'package:flutter/material.dart';
 /// 4. A FAB
 class FadeWrapper extends StatelessWidget {
   const FadeWrapper({
-    Key? key,
+    super.key,
     required this.controller,
     required this.target,
-  }) : super(key: key);
+  });
 
   final AnimationController controller;
   final Widget target;

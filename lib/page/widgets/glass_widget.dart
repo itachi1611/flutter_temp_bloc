@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 
 class GlassWidget extends StatelessWidget {
   const GlassWidget({
-    Key? key,
+    super.key,
     this.borderRadius,
-  }) : super(key: key);
+  });
 
   final double? borderRadius;
 

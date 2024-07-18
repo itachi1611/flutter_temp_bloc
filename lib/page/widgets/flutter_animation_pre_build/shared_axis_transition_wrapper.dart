@@ -11,11 +11,11 @@ import 'package:flutter/material.dart';
 /// 3. A parent-child navigation transitions along the z-axis
 class SharedAxisTransitionWrapper extends StatelessWidget {
   const SharedAxisTransitionWrapper({
-    Key? key,
+    super.key,
     required this.isReverse,
     required this.transitionType,
     required this.target,
-  }) : super(key: key);
+  });
 
   final bool isReverse;
 

@@ -13,12 +13,12 @@ import 'package:flutter/material.dart';
 /// 4. úA search bar into expanded search
 class OpenContainerWrapper extends StatelessWidget {
   const OpenContainerWrapper({
-    Key? key,
+    super.key,
     required this.closedBuilder,
     required this.transitionType,
     required this.onClosed,
     required this.target,
-  }) : super(key: key);
+  });
 
   final CloseContainerBuilder closedBuilder; // Open item widget
   final ContainerTransitionType transitionType; // Transition type

@@ -5,9 +5,9 @@ import 'package:flutter_temp/generated/l10n.dart';
 
 class SettingPage extends StatelessWidget {
   const SettingPage({
-    Key? key,
+    super.key,
     required this.appCubit,
-  }) : super(key: key);
+  });
 
   final AppCubit appCubit;
 

@@ -1,4 +1,4 @@
-//import 'dart:io' as io;
+import 'dart:developer' as developer;
 
 import 'package:logger/logger.dart';
 
@@ -12,7 +12,7 @@ class AppLogger {
             lineLength: 120, // width of the output (detect auto with io package io.stdout.terminalColumns)
             colors: true, // Colorful log messages (detect auto with io package io.stdout.supportsAnsiEscapes)
             printEmojis: true, // Print an emoji for each log message
-            printTime: false, // Should each log print contain a timestamp
+            dateTimeFormat: DateTimeFormat.dateAndTime, // Using instead of printTime(@Deprecated)
         ), // Use the PrettyPrinter to format and print log
         output: null, // Use the default LogOutput (-> send everything to console)
       );
@@ -24,31 +24,31 @@ class AppLogger {
 
   static final AppLogger _instance = AppLogger._internal();
 
-  static AppLogger get instance =>  _instance;
+  factory AppLogger() => _instance;
 
   /// Logger level
-  void v(dynamic message, {bool isErr = false}) {
-    logger.log(Level.verbose, message, isErr ? err : '', isErr ? err.stackTrace : null);
+  void t(dynamic message, {bool isErr = false}) {
+    logger.log(Level.trace, message, error: isErr ? err : '', stackTrace: isErr ? err.stackTrace : null);
   }
 
   void d(dynamic message, {bool isErr = false}) {
-    logger.log(Level.debug, message, isErr ? err : '', isErr ? err.stackTrace : null);
+    logger.log(Level.debug, message, error: isErr ? err : '', stackTrace: isErr ? err.stackTrace : null);
   }
 
   void i(dynamic message, {bool isErr = false}) {
-    logger.log(Level.info, message, isErr ? err : '', isErr ? err.stackTrace : null);
+    logger.log(Level.info, message, error: isErr ? err : '', stackTrace: isErr ? err.stackTrace : null);
   }
 
   void w(dynamic message, {bool isErr = false}) {
-    logger.log(Level.warning, message, isErr ? err : '', isErr ? err.stackTrace : null);
+    logger.log(Level.warning, message, error: isErr ? err : '', stackTrace: isErr ? err.stackTrace : null);
   }
 
   void e(dynamic message, {bool isErr = false}) {
-    logger.log(Level.error, message, isErr ? err : '', isErr ? err.stackTrace : null);
+    logger.log(Level.error, message, error: isErr ? err : '', stackTrace: isErr ? err.stackTrace : null);
   }
 
-  void wtf(dynamic message, {bool isErr = false}) {
-    logger.log(Level.wtf, message, isErr ? err : '', isErr ? err.stackTrace : null);
+  void fatal(dynamic message, {bool isErr = false}) {
+    logger.log(Level.fatal, message, error: isErr ? err : '', stackTrace: isErr ? err.stackTrace : null);
   }
 }
 
@@ -61,6 +61,10 @@ class AppFilter extends LogFilter {
 
     return false; // Allow log on production mode
   }
+}
+
+class DevLog {
+  static void log(String mess) => developer.log('🦊 - $mess');
 }
 
 // class AppPrinter extends LogPrinter {

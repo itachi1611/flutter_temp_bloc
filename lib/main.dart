@@ -5,7 +5,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_displaymode/flutter_displaymode.dart';
 import 'package:flutter_temp/database/app_shared_preference.dart';
-import 'package:flutter_temp/utils/app_logger.dart';
 import 'package:hive/hive.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:path_provider/path_provider.dart';
@@ -13,8 +12,6 @@ import 'package:path_provider/path_provider.dart';
 import 'app/app_page.dart';
 import 'firebase_options.dart';
 import 'models/m.hive/user.dart';
-
-final logger = AppLogger.instance;
 
 
 Future<void> main() async {

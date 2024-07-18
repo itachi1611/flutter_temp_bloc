@@ -1,14 +1,52 @@
+import 'package:flutter_temp/config/env/index.dart';
+import 'package:package_info_plus/package_info_plus.dart';
+
+import '../utils/app_logger.dart';
+import 'app_enums.dart';
+import 'app_env.dart';
+
 class AppConfig {
-  static const String appName = 'Temp';
-  static const String env = 'uat';
+  static Env env = Env.qa;
+  static AppEnv appEnv = DevEnv();
 
   ///Network
-  static const baseUrl = 'https://63a15ce4e3113e5a5c5305f2.mockapi.io';
-  // static const baseUrl = (env == 'live' || env == '')
-  //     ? 'https://api.propcom.vn'
-  //     : env == 'staging'
-  //         ? 'https://stagingapi.propcom.vn'
-  //         : env == "uat"
-  //             ? "https://spx-uat-api.nws-dev.com"
-  //             : 'https://spx-api.nws-dev.com';
+  static String baseUrl = '';
+
+  static Future<void> loadEnv() async {
+    await _checkEnv();
+    DevLog.log(env.toString());
+
+    switch (env) {
+      case Env.qa:
+        appEnv = DevEnv();
+        break;
+      case Env.stg:
+        appEnv = StgEnv();
+        break;
+      case Env.prod:
+        appEnv = ProdEnv();
+        break;
+      default:
+        break;
+    }
+
+    baseUrl = '${appEnv.baseUrl}/api/';
+    DevLog.log(baseUrl);
+  }
+
+  static Future<void> _checkEnv() async {
+    final packageInfo = await PackageInfo.fromPlatform();
+    final appName = packageInfo.packageName;
+    try {
+      if (appName.contains(Env.qa.packageName)) {
+        env = Env.qa;
+      } else if (appName.contains(Env.stg.packageName)) {
+        env = Env.stg;
+      } else {
+        env = Env.prod;
+      }
+    } catch (e) {
+      env = Env.qa;
+    }
+  }
 }

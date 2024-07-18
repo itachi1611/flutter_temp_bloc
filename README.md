@@ -166,6 +166,12 @@ flutter pub cache repair
 pod install (pod install)
 ```
 
+```
+Incase MacOS unable to boot simulator, follow step below
+* With MacOS version >= 13: Go to System Settings → General → Storage → Developer → Delete "Developer Caches"
+* With MacOS version < 12: About this Mac → Storage → Manage → Developer → Delete all the content
+```
+
 ## Screenshots
 
 #### Light Theme

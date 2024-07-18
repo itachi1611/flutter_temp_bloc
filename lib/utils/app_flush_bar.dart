@@ -28,7 +28,7 @@ class AppFlushBar {
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
       textDirection: TextDirection.ltr,
       backgroundColor: (type ?? FlushType.notification).flushBg,
-      duration: Duration(minutes: duration ?? 2),
+      duration: Duration(seconds: duration ?? 2),
       flushbarPosition: position ?? FlushbarPosition.TOP,
       leftBarIndicatorColor: Colors.pink,
       isDismissible: true,

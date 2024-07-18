@@ -163,21 +163,19 @@ class Dot extends StatelessWidget {
   final Color color;
 
   const Dot.circular({
-    Key? key,
+    super.key,
     required double dotSize,
     required this.color,
   })  : width = dotSize,
         height = dotSize,
-        circular = true,
-        super(key: key);
+        circular = true;
 
   const Dot.elliptical({
-    Key? key,
+    super.key,
     required this.width,
     required this.height,
     required this.color,
-  })  : circular = false,
-        super(key: key);
+  })  : circular = false;
 
   @override
   Widget build(BuildContext context) {
@@ -201,20 +199,18 @@ class RoundedRectangle extends StatelessWidget {
   final Color color;
   final bool vertical;
   const RoundedRectangle.vertical({
-    Key? key,
+    super.key,
     required this.width,
     required this.height,
     required this.color,
-  })  : vertical = true,
-        super(key: key);
+  })  : vertical = true;
 
   const RoundedRectangle.horizontal({
-    Key? key,
+    super.key,
     required this.width,
     required this.height,
     required this.color,
-  })  : vertical = false,
-        super(key: key);
+  })  : vertical = false;
 
   @override
   Widget build(BuildContext context) {
@@ -241,7 +237,7 @@ class FlickrDot extends StatelessWidget {
   final AnimationController controller;
 
   const FlickrDot({
-    Key? key,
+    super.key,
     required this.size,
     required this.color,
     required this.initialOffset,
@@ -249,7 +245,7 @@ class FlickrDot extends StatelessWidget {
     required this.interval,
     required this.visibility,
     required this.controller,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -291,7 +287,7 @@ class StaggeredDot extends StatelessWidget {
   final AnimationController controller;
 
   const StaggeredDot({
-    Key? key,
+    super.key,
     required this.offsetInterval,
     required this.size,
     required this.color,
@@ -300,7 +296,7 @@ class StaggeredDot extends StatelessWidget {
     required this.reverseHeightInterval,
     required this.maxHeight,
     required this.controller,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -405,7 +401,7 @@ class ThreeRotatingDot extends StatelessWidget {
   final bool first;
 
   const ThreeRotatingDot.first({
-    Key? key,
+    super.key,
     required this.controller,
     required this.beginAngle,
     required this.endAngle,
@@ -413,11 +409,10 @@ class ThreeRotatingDot extends StatelessWidget {
     required this.dotOffset,
     required this.color,
     required this.size,
-  })  : first = true,
-        super(key: key);
+  })  : first = true;
 
   const ThreeRotatingDot.second({
-    Key? key,
+    super.key,
     required this.controller,
     required this.beginAngle,
     required this.endAngle,
@@ -425,8 +420,7 @@ class ThreeRotatingDot extends StatelessWidget {
     required this.dotOffset,
     required this.color,
     required this.size,
-  })  : first = false,
-        super(key: key);
+  })  : first = false;
 
   @override
   Widget build(BuildContext context) {
@@ -477,7 +471,7 @@ class NewtonDot extends StatelessWidget {
   final double fourthInterval;
 
   const NewtonDot.left({
-    Key? key,
+    super.key,
     required this.color,
     required this.dotSize,
     required this.rotationOrigin,
@@ -486,11 +480,10 @@ class NewtonDot extends StatelessWidget {
     required this.secondInterval,
     required this.thirdInterval,
     required this.fourthInterval,
-  })  : left = true,
-        super(key: key);
+  })  : left = true;
 
   const NewtonDot.right({
-    Key? key,
+    super.key,
     required this.color,
     required this.dotSize,
     required this.rotationOrigin,
@@ -499,8 +492,7 @@ class NewtonDot extends StatelessWidget {
     required this.secondInterval,
     required this.thirdInterval,
     required this.fourthInterval,
-  })  : left = false,
-        super(key: key);
+  })  : left = false;
 
   @override
   Widget build(BuildContext context) {
@@ -569,24 +561,22 @@ class HexagonDot extends StatelessWidget {
   final AnimationController controller;
   final bool first;
   const HexagonDot.first({
-    Key? key,
+    super.key,
     required this.color,
     required this.angle,
     required this.size,
     required this.interval,
     required this.controller,
-  })  : first = true,
-        super(key: key);
+  })  : first = true;
 
   const HexagonDot.second({
-    Key? key,
+    super.key,
     required this.color,
     required this.angle,
     required this.size,
     required this.interval,
     required this.controller,
-  })  : first = false,
-        super(key: key);
+  })  : first = false;
 
   @override
   Widget build(BuildContext context) {
@@ -639,7 +629,7 @@ class StretchedDot extends StatelessWidget {
   final Interval forthInterval;
 
   const StretchedDot({
-    Key? key,
+    super.key,
     required this.controller,
     required this.dotWidth,
     required this.color,
@@ -648,7 +638,7 @@ class StretchedDot extends StatelessWidget {
     required this.secondInterval,
     required this.thirdInterval,
     required this.forthInterval,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -802,7 +792,7 @@ class DotsTriangleSides extends StatelessWidget {
   final Offset rotationOrigin;
   final bool forward;
   const DotsTriangleSides.forward({
-    Key? key,
+    super.key,
     required this.maxLength,
     required this.depth,
     required this.color,
@@ -810,11 +800,10 @@ class DotsTriangleSides extends StatelessWidget {
     required this.interval,
     this.rotationAngle = 0,
     this.rotationOrigin = Offset.zero,
-  })  : forward = true,
-        super(key: key);
+  })  : forward = true;
 
   const DotsTriangleSides.reverse({
-    Key? key,
+    super.key,
     required this.maxLength,
     required this.depth,
     required this.color,
@@ -822,8 +811,7 @@ class DotsTriangleSides extends StatelessWidget {
     required this.interval,
     this.rotationAngle = 0,
     this.rotationOrigin = Offset.zero,
-  })  : forward = false,
-        super(key: key);
+  })  : forward = false;
 
   @override
   Widget build(BuildContext context) {

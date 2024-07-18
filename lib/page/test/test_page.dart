@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_temp/common/app_enums.dart';
 import 'package:flutter_temp/ext/widget_ext.dart';
-import 'package:flutter_temp/main.dart';
 import 'package:flutter_temp/page/test/test_cubit.dart';
 import 'package:flutter_temp/page/widgets/flutter_animation_pre_build/open_container_wrapper.dart';
+import 'package:flutter_temp/utils/app_logger.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../common/app_colors.dart';
@@ -14,9 +14,9 @@ import '../widgets/glass_widget.dart';
 
 class TestPage extends StatefulWidget {
   const TestPage({
-    Key? key,
+    super.key,
     required this.textColor,
-  }) : super(key: key);
+  });
 
   final Color textColor;
 
@@ -45,7 +45,7 @@ class _TestPageState extends State<TestPage> with TickerProviderStateMixin {
     return BlocProvider(
       create: (context) => cubit,
       child: Scaffold(
-        backgroundColor: Theme.of(context).colorScheme.background,
+        backgroundColor: Theme.of(context).colorScheme.surface,
         body: BlocBuilder<TestCubit, TestState>(
           buildWhen: (pre, cur) => pre.loadStatus != cur.loadStatus,
           builder: (context, state) {
@@ -191,7 +191,7 @@ class _TestPageState extends State<TestPage> with TickerProviderStateMixin {
                       },
                       transitionType: ContainerTransitionType.fade,
                       onClosed: (val) {
-                        logger.i(val);
+                        AppLogger().i(val);
                       },
                       target: Container(
                         color: Colors.orange,

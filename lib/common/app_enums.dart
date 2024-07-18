@@ -7,18 +7,6 @@ enum LoadStatus {
   fail,
 }
 
-enum ConnectionStatus {
-  mobileOnline('Mobile network connected'),
-  mobileOffline('Mobile network problem'),
-  wifiOnline('Wifi network connected'),
-  wifiOffline('Wifi network problem'),
-  offline('No network');
-
-  final String message;
-
-  const ConnectionStatus(this.message);
-}
-
 enum FlushType {
   notification,
   success,
@@ -61,7 +49,7 @@ enum LoadingAnimationType {
   horizontalRotatingDots('horizontalRotatingDots'),
   inkDrop('inkDrop'),
   newtonCradle('newtonCradle'),
-  prograssiveDots('prograssiveDots'),
+  progressiveDots('progressiveDots'),
   staggeredDotsWave('staggeredDotsWave'),
   stretchedDots('stretchedDots'),
   threeArchedCircle('threeArchedCircle'),
@@ -85,4 +73,16 @@ enum LaunchExternalType {
   final String type;
 
   const LaunchExternalType(this.type);
+}
+
+enum Env {
+  qa('dev', '_qa'),
+  stg('stg', '_stg'),
+  prod('', '');
+
+  final String prefixName;
+
+  final String packageName;
+
+  const Env(this.prefixName, this.packageName);
 }

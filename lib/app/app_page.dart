@@ -8,7 +8,7 @@ import '../page/splash/splash_page.dart';
 import 'app_cubit.dart';
 
 class AppPage extends StatelessWidget {
-  const AppPage({Key? key}) : super(key: key);
+  const AppPage({super.key});
 
   @override
   Widget build(BuildContext context) {

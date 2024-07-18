@@ -8,10 +8,10 @@ class Beat extends StatefulWidget {
   final Color color;
 
   const Beat({
-    Key? key,
+    super.key,
     required this.color,
     required this.size,
-  }) : super(key: key);
+  });
 
   @override
   State<Beat> createState() => _BeatState();
@@ -151,10 +151,10 @@ class BouncingBall extends StatefulWidget {
   final Color color;
 
   const BouncingBall({
-    Key? key,
+    super.key,
     required this.size,
     required this.color,
-  }) : super(key: key);
+  });
 
   @override
   State<BouncingBall> createState() => _BouncingBallState();
@@ -337,12 +337,12 @@ class DiscreteCircle extends StatefulWidget {
   final Color secondCircleColor;
   final Color thirdCircleColor;
   const DiscreteCircle({
-    Key? key,
+    super.key,
     required this.color,
     required this.size,
     required this.secondCircleColor,
     required this.thirdCircleColor,
-  }) : super(key: key);
+  });
 
   @override
   State<DiscreteCircle> createState() => _DiscreteCircleState();
@@ -516,10 +516,10 @@ class DotsTriangle extends StatefulWidget {
   final double size;
   final Color color;
   const DotsTriangle({
-    Key? key,
+    super.key,
     required this.color,
     required this.size,
-  }) : super(key: key);
+  });
 
   @override
   State<DotsTriangle> createState() => _DotsTriangleState();
@@ -618,10 +618,10 @@ class FallingDot extends StatefulWidget {
   final Color color;
 
   const FallingDot({
-    Key? key,
+    super.key,
     required this.color,
     required this.size,
-  }) : super(key: key);
+  });
 
   @override
   State<FallingDot> createState() => _FallingDotState();
@@ -854,11 +854,11 @@ class Flickr extends StatefulWidget {
   final double size;
 
   const Flickr({
-    Key? key,
+    super.key,
     required this.leftDotColor,
     required this.rightDotColor,
     required this.size,
-  }) : super(key: key);
+  });
 
   @override
   State<Flickr> createState() => _FlickrState();
@@ -943,10 +943,10 @@ class FourRotatingDots extends StatefulWidget {
   final double size;
   final Color color;
   const FourRotatingDots({
-    Key? key,
+    super.key,
     required this.color,
     required this.size,
-  }) : super(key: key);
+  });
 
   @override
   State<FourRotatingDots> createState() => _FourRotatingDotsState();
@@ -1259,10 +1259,10 @@ class HalfTriangleDot extends StatefulWidget {
   final double size;
   final Color color;
   const HalfTriangleDot({
-    Key? key,
+    super.key,
     required this.size,
     required this.color,
-  }) : super(key: key);
+  });
 
   @override
   State<HalfTriangleDot> createState() => _HalfTriangleDotState();
@@ -1469,10 +1469,10 @@ class HexagonDots extends StatefulWidget {
   final Color color;
 
   const HexagonDots({
-    Key? key,
+    super.key,
     required this.size,
     required this.color,
-  }) : super(key: key);
+  });
 
   @override
   State<HexagonDots> createState() => _BuildSpinnerState();
@@ -1618,10 +1618,10 @@ class HorizontalRotatingDots extends StatefulWidget {
   final Color color;
 
   const HorizontalRotatingDots({
-    Key? key,
+    super.key,
     required this.size,
     required this.color,
-  }) : super(key: key);
+  });
 
   @override
   State<HorizontalRotatingDots> createState() => _HorizontalRotatingDotsState();
@@ -1764,11 +1764,11 @@ class InkDrop extends StatefulWidget {
   final Color ringColor;
 
   const InkDrop({
-    Key? key,
+    super.key,
     required this.size,
     required this.color,
     this.ringColor = const Color(0x1A000000),
-  }) : super(key: key);
+  });
 
   @override
   State<InkDrop> createState() => _InkDropState();
@@ -2011,10 +2011,10 @@ class NewtonCradle extends StatefulWidget {
   final Color color;
 
   const NewtonCradle({
-    Key? key,
+    super.key,
     required this.size,
     required this.color,
-  }) : super(key: key);
+  });
 
   @override
   State<NewtonCradle> createState() => _NewtonCradleState();
@@ -2093,10 +2093,10 @@ class PrograssiveDots extends StatefulWidget {
   final Color color;
 
   const PrograssiveDots({
-    Key? key,
+    super.key,
     required this.color,
     required this.size,
-  }) : super(key: key);
+  });
 
   @override
   State<PrograssiveDots> createState() => _PrograssiveDotsState();
@@ -2214,10 +2214,10 @@ class StaggeredDotsWave extends StatefulWidget {
   final Color color;
 
   const StaggeredDotsWave({
-    Key? key,
+    super.key,
     required this.size,
     required this.color,
-  }) : super(key: key);
+  });
 
   @override
   State<StaggeredDotsWave> createState() => _StaggeredDotsWaveState();
@@ -2323,13 +2323,12 @@ class StretchedDots extends StatefulWidget {
   final double dotWidth;
 
   const StretchedDots({
-    Key? key,
+    super.key,
     required this.size,
     required this.color,
     // required this.time,
   })  : innerHeight = size / 1.3,
-        dotWidth = size / 8,
-        super(key: key);
+        dotWidth = size / 8;
 
   @override
   State<StretchedDots> createState() => _StretchedDotsState();
@@ -2498,10 +2497,10 @@ class ThreeArchedCircle extends StatefulWidget {
   final double size;
   final Color color;
   const ThreeArchedCircle({
-    Key? key,
+    super.key,
     required this.color,
     required this.size,
-  }) : super(key: key);
+  });
 
   @override
   State<ThreeArchedCircle> createState() => _ThreeArchedCircleState();
@@ -2671,10 +2670,10 @@ class ThreeRotatingDots extends StatefulWidget {
   final Color color;
 
   const ThreeRotatingDots({
-    Key? key,
+    super.key,
     required this.color,
     required this.size,
-  }) : super(key: key);
+  });
 
   @override
   State<ThreeRotatingDots> createState() => _ThreeRotatingDotsState();
@@ -2803,11 +2802,11 @@ class TwistingDots extends StatefulWidget {
   final Color rightDotColor;
 
   const TwistingDots({
-    Key? key,
+    super.key,
     required this.size,
     required this.leftDotColor,
     required this.rightDotColor,
-  }) : super(key: key);
+  });
 
   @override
   State<TwistingDots> createState() => _TwistingDotsState();
@@ -2924,10 +2923,10 @@ class TwoRotatingArc extends StatefulWidget {
   final double size;
   final Color color;
   const TwoRotatingArc({
-    Key? key,
+    super.key,
     required this.color,
     required this.size,
-  }) : super(key: key);
+  });
 
   @override
   State<TwoRotatingArc> createState() => _TwoRotatingArcState();
@@ -3142,10 +3141,10 @@ class WaveDots extends StatefulWidget {
   final Color color;
 
   const WaveDots({
-    Key? key,
+    super.key,
     required this.size,
     required this.color,
-  }) : super(key: key);
+  });
 
   @override
   State<WaveDots> createState() => _WaveDotsState();

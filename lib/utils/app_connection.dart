@@ -1,42 +1,31 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
-
-import '../main.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
 
 class AppConnection {
+  // Define singleton AppConnection
   AppConnection._();
 
   static final _instance = AppConnection._();
 
-  static AppConnection get instance => _instance;
+  factory AppConnection() => _instance;
 
+  // Package detect network connection
   final _networkConnectivity = Connectivity();
 
-  final _controller = StreamController.broadcast();
+  final InternetConnectionChecker _internetConnectionChecker = InternetConnectionChecker();
 
-  Stream get myStream => _controller.stream;
+  Stream<List<ConnectivityResult>> get connectivityStream => _networkConnectivity.onConnectivityChanged;
 
-  void initialise() async {
-    ConnectivityResult result = await _networkConnectivity.checkConnectivity();
-    _checkStatus(result);
-    _networkConnectivity.onConnectivityChanged.listen((result) {
-      logger.i(result);
-      _checkStatus(result);
-    });
-  }
-
-  void _checkStatus(ConnectivityResult result) async {
-    bool isOnline = false;
-    try {
-      final result = await InternetAddress.lookup('example.com');
-      isOnline = result.isNotEmpty && result[0].rawAddress.isNotEmpty;
-    } on SocketException catch (_) {
-      isOnline = false;
+  Future<bool> isConnectInternet() async {
+    // Check if there is active network connection
+    List<ConnectivityResult> connectivityResults = await _networkConnectivity.checkConnectivity();
+    if(connectivityResults.contains(ConnectivityResult.none)) {
+      return false;
     }
-    _controller.sink.add({result: isOnline});
-  }
 
-  void disposeStream() => _controller.close();
+    // Check if the device is connected to the internet
+    return await _internetConnectionChecker.hasConnection;
+  }
 }

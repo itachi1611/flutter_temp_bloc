@@ -1,16 +1,19 @@
+import 'dart:async';
+
 import 'package:animations/animations.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_temp/common/app_colors.dart';
 import 'package:flutter_temp/common/app_enums.dart';
+import 'package:flutter_temp/common/app_extension.dart';
 import 'package:flutter_temp/common/app_shadows.dart';
 import 'package:flutter_temp/ext/loading_animation_ext.dart';
 import 'package:flutter_temp/ext/widget_ext.dart';
-import 'package:flutter_temp/main.dart';
 import 'package:flutter_temp/page/test/test_page.dart';
 import 'package:flutter_temp/page/widgets/flutter_animation_pre_build/shared_axis_transition_wrapper.dart';
 import 'package:flutter_temp/utils/app_connection.dart';
+import 'package:flutter_temp/utils/app_logger.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:permission_handler/permission_handler.dart';
 
@@ -20,7 +23,7 @@ import '../../utils/app_permission.dart';
 import 'home_cubit.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+  const HomePage({super.key});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -31,6 +34,8 @@ class _HomePageState extends State<HomePage> {
   late final HomeCubit _homeCubit;
   late final AppPermission appPermission;
 
+  late final StreamSubscription<List<ConnectivityResult>> _connectivitySubscription;
+
   final _listPages = [
     const TestPage(textColor: Colors.blue, key: ValueKey(0)),
     const TestPage(textColor: Colors.green, key: ValueKey(1)),
@@ -38,8 +43,10 @@ class _HomePageState extends State<HomePage> {
     const TestPage(textColor: Colors.yellow, key: ValueKey(3))
   ];
 
-  Map _source = {ConnectivityResult.none: false};
-  final AppConnection _networkConnectivity = AppConnection.instance;
+  final _appConnection = AppConnection();
+
+  bool initExistConnectionNetwork = true;
+
 
   @override
   void initState() {
@@ -47,28 +54,7 @@ class _HomePageState extends State<HomePage> {
     _appCubit = BlocProvider.of<AppCubit>(context)..setListLang();
     _homeCubit = HomeCubit();
 
-    _networkConnectivity.initialise();
-
-    _networkConnectivity.myStream.listen((source) {
-      _source = source;
-      logger.i('source $_source');
-      switch (_source.keys.toList()[0]) {
-        case ConnectivityResult.mobile:
-          _appCubit.setConnectionStatus(_source.values.toList()[0]
-              ? ConnectionStatus.mobileOnline
-              : ConnectionStatus.mobileOffline);
-          break;
-        case ConnectivityResult.wifi:
-          _appCubit.setConnectionStatus(_source.values.toList()[0]
-              ? ConnectionStatus.wifiOnline
-              : ConnectionStatus.wifiOffline);
-          break;
-        case ConnectivityResult.none:
-        default:
-          _appCubit.setConnectionStatus(ConnectionStatus.offline);
-          break;
-      }
-    });
+    _connectivitySubscription = _appConnection.connectivityStream.listen(onListenConnection);
 
     _homeCubit.initData();
     appPermission = AppPermission(
@@ -78,19 +64,33 @@ class _HomePageState extends State<HomePage> {
     onCheckPermission();
   }
 
-  void onCheckPermission() async =>
-      await appPermission.onHandlePermissionStatus();
+  void onCheckPermission() async => await appPermission.onHandlePermissionStatus();
+
+  void onListenConnection(List<ConnectivityResult> results) {
+    final currentStatus = results.first;
+
+    if(currentStatus == ConnectivityResult.none) {
+      if(initExistConnectionNetwork) {
+        _appCubit.setConnectionStatus(currentStatus);
+        initExistConnectionNetwork = false;
+      }
+    } else {
+      if(!initExistConnectionNetwork) {
+        _appCubit.setConnectionStatus(currentStatus);
+        initExistConnectionNetwork = true;
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: BlocListener<AppCubit, AppState>(
         bloc: _appCubit,
-        listener: (context, state) =>
-            onConnectionChangedListener(state.connectionStatus),
-        listenWhen: (pre, cur) => pre.connectionStatus != cur.connectionStatus,
+        listener: (context, state) => onConnectionChangedListener(state.connectivityResult ?? ConnectivityResult.none),
+        listenWhen: (pre, cur) => pre.connectivityResult != cur.connectivityResult,
         child: Scaffold(
-          backgroundColor: Theme.of(context).colorScheme.background,
+          backgroundColor: Theme.of(context).colorScheme.surface,
           body: BlocBuilder<HomeCubit, HomeState>(
             bloc: _homeCubit,
             buildWhen: (pre, cur) =>
@@ -99,7 +99,7 @@ class _HomePageState extends State<HomePage> {
             builder: (context, state) {
               switch (state.loadStatus) {
                 case LoadStatus.loading:
-                  return const CircularProgressIndicator().center;
+                  return _loadingWidget;
                 case LoadStatus.fail:
                   return const Text('Load fail').center;
                 case LoadStatus.success:
@@ -169,21 +169,27 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  void onGranted() => logger.i('granted');
+  void onGranted() => AppLogger().i('granted');
 
-  void onDenied() => logger.i('denied');
+  void onDenied() => AppLogger().i('denied');
 
-  void onConnectionChangedListener(ConnectionStatus? connectionStatus) {
-    switch (connectionStatus) {
-      case ConnectionStatus.mobileOffline:
-      case ConnectionStatus.wifiOffline:
-      case ConnectionStatus.offline:
+  void onConnectionChangedListener(ConnectivityResult connectivityResult) {
+    switch (connectivityResult) {
+      case ConnectivityResult.none:
         AppFlushBar.showFlushBar(context,
-            message: connectionStatus?.message.toString().trim(),
+            message: connectivityResult.message.toString().trim(),
             type: FlushType.error);
         break;
-      case ConnectionStatus.mobileOnline:
-      case ConnectionStatus.wifiOnline:
+      case ConnectivityResult.mobile:
+      case ConnectivityResult.wifi:
+        AppFlushBar.showFlushBar(context,
+          message: connectivityResult.message.toString().trim(),
+          type: FlushType.notification);
+        break;
+      case ConnectivityResult.vpn:
+      case ConnectivityResult.bluetooth:
+      case ConnectivityResult.ethernet:
+      case ConnectivityResult.other:
       default:
         break;
     }
@@ -251,7 +257,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void dispose() {
-    _networkConnectivity.disposeStream();
+    _connectivitySubscription.cancel();
     appPermission.dispose();
     _homeCubit.close();
     _appCubit.close();

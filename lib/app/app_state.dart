@@ -4,25 +4,25 @@ class AppState extends Equatable {
   const AppState({
     this.themeMode,
     this.locale,
-    this.connectionStatus,
+    this.connectivityResult,
     this.lists,
   });
 
   final ThemeMode? themeMode;
   final Locale? locale;
-  final ConnectionStatus? connectionStatus;
+  final ConnectivityResult? connectivityResult;
   final List<String>? lists;
 
   AppState copyWith({
     ThemeMode? themeMode,
     Locale? locale,
-    ConnectionStatus? connectionStatus,
+    ConnectivityResult? connectivityResult,
     List<String>? lists,
   }) {
     return AppState(
       themeMode: themeMode ?? this.themeMode,
       locale: locale ?? this.locale,
-      connectionStatus: connectionStatus ?? this.connectionStatus,
+      connectivityResult: connectivityResult ?? this.connectivityResult,
       lists: lists ?? this.lists,
     );
   }
@@ -31,7 +31,7 @@ class AppState extends Equatable {
   List<Object?> get props => [
         themeMode,
         locale,
-        connectionStatus,
+    connectivityResult,
         lists,
       ];
 }

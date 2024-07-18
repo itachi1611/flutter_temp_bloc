@@ -40,11 +40,9 @@ final ColorScheme lightColorScheme = ColorScheme.light(
   secondary: primarySwatch.shade500,
   onSecondary: Colors.white,
   error: errorColor,
-  background: textSwatch.shade200,
-  onBackground: textSwatch.shade500,
   onSurface: textSwatch.shade500,
-  surface: textSwatch.shade50,
-  surfaceVariant: Colors.white,
+  surface: textSwatch.shade200,
+  surfaceContainerHighest: Colors.white,
   shadow: textSwatch.shade900.withOpacity(.1),
 );
 
@@ -53,17 +51,14 @@ final ColorScheme darkColorScheme = ColorScheme.dark(
   secondary: primarySwatch.shade500,
   onSecondary: Colors.white,
   error: errorColor,
-  background: const Color(0xFF171724),
-  onBackground: textSwatch.shade400,
-  onSurface: textSwatch.shade300,
-  surface: const Color(0xFF262630),
-  surfaceVariant: const Color(0xFF282832),
+  onSurface: textSwatch.shade400,
+  surface: const Color(0xFF171724),
+  surfaceContainerHighest: const Color(0xFF282832),
   shadow: textSwatch.shade900.withOpacity(.2),
 );
 
 final ThemeData lightTheme = ThemeData(
   colorScheme: lightColorScheme,
-  toggleableActiveColor: primarySwatch.shade500,
   splashColor: Colors.transparent,
   highlightColor: Colors.transparent,
   textTheme: TextTheme(
@@ -117,7 +112,6 @@ final ThemeData lightTheme = ThemeData(
 
 final ThemeData darkTheme = lightTheme.copyWith(
   colorScheme: darkColorScheme,
-  toggleableActiveColor: primarySwatch.shade500,
   splashColor: Colors.transparent,
   highlightColor: Colors.transparent,
   textTheme: TextTheme(

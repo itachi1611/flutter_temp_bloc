@@ -10,10 +10,10 @@ import 'package:flutter/material.dart';
 /// 3. Tapping an account switcher
 class FadeThroughWrapper extends StatelessWidget {
   const FadeThroughWrapper({
-    Key? key,
+    super.key,
     required this.isReverse,
     required this.target,
-  }) : super(key: key);
+  });
 
   final bool isReverse;
   final Widget target;

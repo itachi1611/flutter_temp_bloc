@@ -4,7 +4,7 @@ import '../../common/app_enums.dart';
 
 class AppCustomBtn extends StatelessWidget {
   const AppCustomBtn({
-    Key? key,
+    super.key,
     required this.btnType,
     this.onPressed,
     this.onLongPress,
@@ -16,7 +16,7 @@ class AppCustomBtn extends StatelessWidget {
     this.focusNode,
     this.autofocus,
     required this.widget,
-  }) : super(key: key);
+  });
 
   final ButtonType btnType;
   final VoidCallback? onPressed;
@@ -31,13 +31,13 @@ class AppCustomBtn extends StatelessWidget {
   final Widget widget;
 
   static final btnStyle = ButtonStyle(
-    foregroundColor: MaterialStateProperty.all<Color>(Colors.blue),
-    overlayColor: MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
-      if (states.contains(MaterialState.hovered)) {
+    foregroundColor: WidgetStateProperty.all<Color>(Colors.blue),
+    overlayColor: WidgetStateProperty.resolveWith<Color?>((Set<WidgetState> states) {
+      if (states.contains(WidgetState.hovered)) {
         return Colors.blue.withOpacity(0.04);
       }
 
-      if (states.contains(MaterialState.focused) || states.contains(MaterialState.pressed)) {
+      if (states.contains(WidgetState.focused) || states.contains(WidgetState.pressed)) {
         return Colors.blue.withOpacity(0.12);
       }
       return null; // Defer to the widget's default.
