@@ -18,7 +18,7 @@ class SplashCubit extends Cubit<SplashState> {
   }
 
   void onAnimateLogo() {
-    Future.delayed(const Duration(milliseconds: 2500), () async {
+    Future.delayed(const Duration(milliseconds: 1500), () async {
       emit(state.copyWith(logoStyle: FlutterLogoStyle.markOnly));
     });
   }

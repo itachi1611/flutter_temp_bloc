@@ -48,7 +48,7 @@ class _SplashPageState extends State<SplashPage> {
           //title: const Text('FLUTTER'),
           //subtitle: const Text('Welcome to community !'),
           bottomLoading: true,
-          duration: const Duration(seconds: 5),
+          duration: const Duration(seconds: 3),
           showStatusBar: false,
           done: Done(
             const HomePage(),
