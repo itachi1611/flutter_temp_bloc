@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:animations/animations.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_temp/common/app_colors.dart';
@@ -20,6 +21,7 @@ import 'package:permission_handler/permission_handler.dart';
 import '../../app/app_cubit.dart';
 import '../../utils/app_flush_bar.dart';
 import '../../utils/app_permission.dart';
+import '../../utils/fcm_manager.dart';
 import 'home_cubit.dart';
 
 class HomePage extends StatefulWidget {
@@ -35,6 +37,8 @@ class _HomePageState extends State<HomePage> {
   late final AppPermission appPermission;
 
   late final StreamSubscription<List<ConnectivityResult>> _connectivitySubscription;
+  late final Stream<String> _tokenStream;
+
 
   final _listPages = [
     const TestPage(textColor: Colors.blue, key: ValueKey(0)),
@@ -47,7 +51,6 @@ class _HomePageState extends State<HomePage> {
 
   bool initExistConnectionNetwork = true;
 
-
   @override
   void initState() {
     super.initState();
@@ -58,10 +61,19 @@ class _HomePageState extends State<HomePage> {
 
     _homeCubit.initData();
     appPermission = AppPermission(
-        permission: Permission.camera,
-        actionGranted: onGranted,
-        actionDenied: onDenied);
+      permission: Permission.camera,
+      actionGranted: onGranted,
+      actionDenied: onDenied,
+    );
+
     onCheckPermission();
+
+    setupInteractedMessage();
+
+    listen();
+
+    _tokenStream = FirebaseMessaging.instance.onTokenRefresh;
+    _tokenStream.listen(onTokenReceived);
   }
 
   void onCheckPermission() async => await appPermission.onHandlePermissionStatus();

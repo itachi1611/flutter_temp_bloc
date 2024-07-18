@@ -25,11 +25,17 @@ if (flutterVersionName == null) {
 
 android {
     compileSdkVersion flutter.compileSdkVersion
-    ndkVersion flutter.ndkVersion
+    ndkVersion "26.1.10909125"
+    // ndkVersion flutter.ndkVersion
 
     compileOptions {
+        coreLibraryDesugaringEnabled true
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    buildFeatures {
+        buildConfig = false
     }
 
     kotlinOptions {
@@ -98,6 +104,7 @@ android {
         debug {
             signingConfig signingConfigs.debug
         }
+
         profile {
             signingConfig signingConfigs.release
         }
@@ -118,20 +125,7 @@ flutter {
     source '../..'
 }
 
-task printSigningReport {
-    doLast {
-        android.applicationVariants.all { variant ->
-            variant.outputs.each { output ->
-                def signingConfig = variant.signingConfig
-                if (signingConfig != null) {
-                    println "Variant: ${variant.name}"
-                    println "Store file: ${signingConfig.storeFile}"
-                    println "Store password: ${signingConfig.storePassword}"
-                    println "Key alias: ${signingConfig.keyAlias}"
-                    println "Key password: ${signingConfig.keyPassword}"
-                    println "-----------------------"
-                }
-            }
-        }
-    }
+dependencies {
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.2.2'
+    // other dependencies
 }
