@@ -2,24 +2,18 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>CLIENT_ID</key>
-	<string>281391047211-gf3s7ptq7nrc87s5ms10gid6nqk00vq7.apps.googleusercontent.com</string>
-	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.281391047211-gf3s7ptq7nrc87s5ms10gid6nqk00vq7</string>
-	<key>ANDROID_CLIENT_ID</key>
-	<string>281391047211-3j8v8mnc8lonrkafct2mcsnjaqua3hkr.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
-	<string>AIzaSyBRj5yNEjI_LyCwxl3Z0-XGFXCdBsMfcTE</string>
+	<string>AIzaSyD0ZRPMVgJAjTXTMrCeGWdwkFQVYXPKWu0</string>
 	<key>GCM_SENDER_ID</key>
-	<string>281391047211</string>
+	<string>433767901659</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>com.fluttertemp.flutterTemp.dev</string>
 	<key>PROJECT_ID</key>
-	<string>fox-firebase-e3b46</string>
+	<string>fox-firebase-dev</string>
 	<key>STORAGE_BUCKET</key>
-	<string>fox-firebase-e3b46.appspot.com</string>
+	<string>fox-firebase-dev.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -31,6 +25,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:281391047211:ios:118a1cb23423a59ba4806e</string>
+	<string>1:433767901659:ios:0b9456099a3f70b619dffe</string>
 </dict>
 </plist>
