@@ -88,6 +88,7 @@ Podfile.lock
 .published/
 
 # Flutter Generater
+lib/**/**/*.g.dart
 lib/**/*.g.dart
 /**/.env.*
 
