@@ -22,8 +22,6 @@ migrate_working_dir/
 #.vscode/
 
 # Android related
-*.iml
-.idea/
 .gradle
 /local.properties
 /.idea/
@@ -65,7 +63,6 @@ xcuserdata
 *.xcuserstate
 
 # Swift Package Manager
-.build/
 .swiftpm/xcode/package.pins
 .swiftpm/xcode/.build
 .swiftpm/xcode/.project.xcworkspace
@@ -84,13 +81,13 @@ Podfile.lock
 .packages
 .pub-cache/
 .pub/
-/build/
 .published/
 
 # Flutter Generater
 lib/**/**/*.g.dart
 lib/**/*.g.dart
 /**/.env.*
+**/*.g.dart
 
 # Symbolication related
 app.*.symbols
