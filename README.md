@@ -126,43 +126,53 @@ After following the installation steps you can customize your project.
     ```
    > \* Set up domain for open on browser
 5. Firebase
-   ```
+   ```shell
    # Install the CLI if not already done so
    dart pub global activate flutterfire_cli
 
    # Run the `configure` command, select a Firebase project and platforms
    flutterfire configure
    ```
-   
+6. Intl
+   ```shell
+   # Generate localization files
+   flutter pub run intl_utils:generate
+   ```
 
 ## Commands
 
 #### Get the dependencies
 
-```
+```shell
 - flutter pub run build_runner build watch --enable-experiment=non-nullable --delete-conflicting-outputs (flutter ver 1xx)
 - flutter pub run build_runner build watch --delete-conflicting-outputs (flutter ver >= 2xx)  
 ```
 
 #### Clear the cache
 
-```
+```shell
 flutter pub cache clean
 flutter pub cache repair
+```
+
+#### Active flutter_gen for asset management
+
+```shell
+dart pub global activate flutter_gen
 ```
 
 #### For iOS only
 
 ##### Mac ARM
 
-```
+```shell
 1. sudo arch -x86_64 gem install ffi (install ffi)
 2. sudo arch -x86_64 pod install (pod install)
 ```
 
 ##### Mac Intel
 
-```
+```shell
 pod install (pod install)
 ```
 
