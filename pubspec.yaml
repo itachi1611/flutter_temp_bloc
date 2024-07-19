@@ -67,6 +67,7 @@ dependencies:
   google_fonts: ^6.2.1
 
   # Network
+  http: ^1.2.2
   connectivity_plus: ^6.0.3
   internet_connection_checker: ^1.0.0+1
   retrofit: ^4.1.0

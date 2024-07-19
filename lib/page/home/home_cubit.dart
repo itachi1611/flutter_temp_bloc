@@ -9,6 +9,7 @@ class HomeCubit extends Cubit<HomeState> {
 
   Future<void> initData() async {
     emit(state.copyWith(loadStatus: LoadStatus.loading));
+
     emit(state.copyWith(loadStatus: LoadStatus.success));
   }
 

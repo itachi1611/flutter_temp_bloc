@@ -2,7 +2,7 @@ import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_temp/common/app_enums.dart';
-import 'package:flutter_temp/ext/widget_ext.dart';
+import 'package:flutter_temp/extensions/widget_ext.dart';
 import 'package:flutter_temp/page/test/test_cubit.dart';
 import 'package:flutter_temp/page/widgets/flutter_animation_pre_build/open_container_wrapper.dart';
 import 'package:flutter_temp/utils/app_logger.dart';

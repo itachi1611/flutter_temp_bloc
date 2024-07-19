@@ -1,6 +1,6 @@
 import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_temp/ext/flush_ext.dart';
+import 'package:flutter_temp/extensions/flush_ext.dart';
 
 import '../common/app_enums.dart';
 

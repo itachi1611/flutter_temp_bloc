@@ -1,7 +1,7 @@
 import 'package:animated_snack_bar/animated_snack_bar.dart';
 import 'package:flutter/material.dart';
 
-import '../ext/snack_ext.dart';
+import '../extensions/snack_ext.dart';
 
 class AppSnackBar {
   static final AppSnackBar _instance = AppSnackBar._internal();

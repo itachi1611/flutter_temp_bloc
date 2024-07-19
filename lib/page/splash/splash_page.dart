@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_temp/ext/widget_ext.dart';
+import 'package:flutter_temp/extensions/widget_ext.dart';
 import 'package:splash_view/splash_view.dart';
 
 import '../home/home_page.dart';
