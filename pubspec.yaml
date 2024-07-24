@@ -46,6 +46,9 @@ dependencies:
   flutter_bloc: ^8.1.6
   hydrated_bloc: ^9.1.5
 
+  # Router
+  go_router: ^14.2.1
+
   # Database
   hive: ^2.2.3
   hive_generator: ^2.0.1

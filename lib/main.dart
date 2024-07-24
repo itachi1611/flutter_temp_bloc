@@ -31,6 +31,8 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   debugPrint('Handling a background message ${message.messageId}');
 }
 
+final kRoot = GlobalKey<NavigatorState>(debugLabel: 'kRoot');
+
 /// Create a [AndroidNotificationChannel] for heads up notifications
 late AndroidNotificationChannel channel;
 
