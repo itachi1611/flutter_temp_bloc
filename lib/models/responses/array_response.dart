@@ -3,83 +3,75 @@ import 'package:json_annotation/json_annotation.dart';
 
 @JsonSerializable(genericArgumentFactories: true)
 class ArrayResponse<T> extends Equatable {
-  final int? page;
+  final String? message;
+  final int? status;
+  final List<T>? data;
+
+  /// Pagination
+  final int? pageNumber;
   final int? pageSize;
+  final int? totalRecords;
   final int? totalPages;
-  final List<T>? results;
-  final int? total;
-  final int? code;
-  final int? sum;
-  final bool? isJoinAnyGroup;
 
   const ArrayResponse({
-    this.page,
+    this.message,
+    this.status,
+    this.data,
+    this.pageNumber,
     this.pageSize,
+    this.totalRecords,
     this.totalPages,
-    this.results,
-    this.total,
-    this.code,
-    this.sum,
-    this.isJoinAnyGroup,
   });
 
   ArrayResponse<T> copyWith({
-    int? page,
+    String? message,
+    int? status,
+    List<T>? data,
+    int? pageNumber,
     int? pageSize,
+    int? totalRecords,
     int? totalPages,
-    List<T>? results,
-    int? total,
-    int? code,
-    int? sum,
-    bool? isJoinAnyGroup,
   }) {
     return ArrayResponse<T>(
-      page: page ?? this.page,
+      message: message ?? this.message,
+      status: status ?? this.status,
+      data: data ?? this.data,
+      pageNumber: pageNumber ?? this.pageNumber,
       pageSize: pageSize ?? this.pageSize,
+      totalRecords: totalRecords ?? this.totalRecords,
       totalPages: totalPages ?? this.totalPages,
-      results: results ?? this.results,
-      total: total ?? this.total,
-      code: code ?? this.code,
-      sum: sum ?? this.sum,
-      isJoinAnyGroup: isJoinAnyGroup ?? this.isJoinAnyGroup,
     );
   }
 
-  factory ArrayResponse.fromJson(
-      Map<String, dynamic> json, T Function(Object? json) fromJsonT) {
+  factory ArrayResponse.fromJson(Map<String, dynamic> json, T Function(Object? json) fromJsonT) {
     ArrayResponse<T> resultGeneric = ArrayResponse<T>(
-      page: json['page'] as int? ?? 1,
-      pageSize: json['pageSize'] as int? ?? 1,
-      totalPages: json['totalPages'] as int? ?? 1,
-      total: json['total'] as int? ?? 1,
-      code: json['code'] as int? ?? 1,
-      sum: json['sum'] as int? ?? 1,
-      isJoinAnyGroup: json['isJoinAnyGroup'] as bool? ?? false,
+      message: json['message'] as String?,
+      status: json['status'] as int?,
+      pageNumber: json['pageNumber'] as int?,
+      pageSize: json['pageSize'] as int?,
+      totalRecords: json['totalRecords'] as int?,
+      totalPages: json['totalPages'] as int?,
     );
-    if (json['rows'] != null) {
-      if (json['rows'] is List?) {
-        return resultGeneric.copyWith(
-          results: (json['rows'] as List).map(fromJsonT).toList(),
-        );
-      }
-    } else if (json['data'] != null) {
+
+    if (json['data'] != null) {
       if (json['data'] is List?) {
         return resultGeneric.copyWith(
-          results: (json['data'] as List).map(fromJsonT).toList(),
+          data: (json['data'] as List).map(fromJsonT).toList(),
         );
       }
     }
+
     return resultGeneric;
   }
 
   @override
   List<Object?> get props => [
-        page,
-        pageSize,
-        totalPages,
-        results,
-        code,
-        sum,
-        isJoinAnyGroup,
-      ];
+    message,
+    status,
+    data,
+    pageSize,
+    pageNumber,
+    totalPages,
+    totalRecords,
+  ];
 }

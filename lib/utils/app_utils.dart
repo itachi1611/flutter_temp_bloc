@@ -31,7 +31,7 @@ class AppUtils {
       await launchUrl(uri);
     }
     catch(e) {
-      AppLogger().e(e.toString());
+      err(e.toString());
     }
   }
 }

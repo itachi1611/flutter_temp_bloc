@@ -43,7 +43,7 @@ final ColorScheme lightColorScheme = ColorScheme.light(
   onSurface: textSwatch.shade500,
   surface: textSwatch.shade200,
   surfaceContainerHighest: Colors.white,
-  shadow: textSwatch.shade900.withOpacity(.1),
+  shadow: textSwatch.shade900.withValues(alpha: .1),
 );
 
 final ColorScheme darkColorScheme = ColorScheme.dark(
@@ -54,7 +54,7 @@ final ColorScheme darkColorScheme = ColorScheme.dark(
   onSurface: textSwatch.shade400,
   surface: const Color(0xFF171724),
   surfaceContainerHighest: const Color(0xFF282832),
-  shadow: textSwatch.shade900.withOpacity(.2),
+  shadow: textSwatch.shade900.withValues(alpha: .2),
 );
 
 final ThemeData lightTheme = ThemeData(

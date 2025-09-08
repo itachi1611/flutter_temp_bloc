@@ -3,5 +3,5 @@ class AppConstants {
   static const String firstRun = "FirstRun";
   static const String appInfo = "AppInfo";
 
-  static const int connectTimeout = 60000;
+  static const int connectTimeout = 30000;
 }

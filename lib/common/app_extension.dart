@@ -1,26 +1,11 @@
-import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:package_info_plus/package_info_plus.dart';
+import 'dart:ui';
 
-extension ConnectivityMess on ConnectivityResult {
-  String get message {
-    switch(this) {
-      case ConnectivityResult.none:
-        return 'Internet connection has been lost !';
-      case ConnectivityResult.mobile:
-      case ConnectivityResult.wifi:
-        return 'Internet connection has been recover';
-      case ConnectivityResult.bluetooth:
-      case ConnectivityResult.ethernet:
-      case ConnectivityResult.vpn:
-      case ConnectivityResult.other:
-      default:
-        return '';
-    }
-  }
-}
-
-extension AppPackage on PackageInfo {
-  String get appVersion => '${version.split(' ').first} ($buildNumber)';
-
-  String get packageAppName => packageName;
+// Previously, Color had the concept of opacity, which showed up in the methods opacity and withOpacity().
+// Opacity was introduced as a way to communicate with Color about its alpha channel using floating-point values.
+// Now that alpha is a floating-point value, opacity is redundant, and both opacity and withOpacity are deprecated and slated to be removed.
+// Update Deprecated Method:
+// Before final x = color.withOpacity(0.0);
+// After final x = color.withValues(alpha: 0.0);
+extension ColorExtension on Color {
+  Color withOpacities(double opacity) => withValues(alpha: opacity);
 }

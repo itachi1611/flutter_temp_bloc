@@ -63,13 +63,13 @@ class FoxBottomNavigationBar extends StatelessWidget {
       label: 'Home',
       tooltip: 'Home',
     ),
-    const BottomNavigationBarItem(
-      icon: Icon(Icons.flutter_dash_rounded),
-      activeIcon: Icon(Icons.flutter_dash_rounded),
-      backgroundColor: Colors.white,
-      label: 'Flutter School',
-      tooltip: 'Flutter School',
-    ),
+    // const BottomNavigationBarItem(
+    //   icon: Icon(Icons.flutter_dash_rounded),
+    //   activeIcon: Icon(Icons.flutter_dash_rounded),
+    //   backgroundColor: Colors.white,
+    //   label: 'Flutter School',
+    //   tooltip: 'Flutter School',
+    // ),
     const BottomNavigationBarItem(
       icon: Icon(Icons.abc_rounded),
       activeIcon: Icon(Icons.back_hand_rounded),
@@ -77,12 +77,12 @@ class FoxBottomNavigationBar extends StatelessWidget {
       label: 'Testing',
       tooltip: 'Testing',
     ),
-    const BottomNavigationBarItem(
-      icon: Icon(Icons.settings_rounded),
-      activeIcon: Icon(Icons.settings_backup_restore_rounded),
-      backgroundColor: Colors.white,
-      label: 'Setting',
-      tooltip: 'Setting',
-    ),
+    // const BottomNavigationBarItem(
+    //   icon: Icon(Icons.settings_rounded),
+    //   activeIcon: Icon(Icons.settings_backup_restore_rounded),
+    //   backgroundColor: Colors.white,
+    //   label: 'Setting',
+    //   tooltip: 'Setting',
+    // ),
   ];
 }

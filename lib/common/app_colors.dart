@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 class AppColors {
   /// Common
   static const Color lightGray = Color(0xFF3C494A);
+  static const Color pureWhite = Color(0xFFFFFFFF);
+  static const Color pureBlack = Color(0xFF000000);
 
   /// Flushbar
   static const Color notificationBg = Color(0xFF63a026);

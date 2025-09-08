@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_temp/extensions/widget_ext.dart';
-import 'package:splash_view/splash_view.dart';
+import 'package:flutter_temp/page/widgets/splash_widget.dart';
+import 'package:go_router/go_router.dart';
 
-import '../home/home_page.dart';
+import '../../router/routers.dart';
 import 'splash_cubit.dart';
 
 class SplashPage extends StatefulWidget {
@@ -36,25 +37,30 @@ class _SplashPageState extends State<SplashPage> {
       bloc: _splashCubit,
       buildWhen: (pre, cur) => pre.logoStyle != cur.logoStyle,
       builder: (context, state) {
-        return SplashView(
+        return SplashWidget(
           logo: FlutterLogo(
             size: state.logoStyle != FlutterLogoStyle.markOnly ? 160 : 96,
             textColor: state.textColor,
             style: state.logoStyle,
           ),
-          loadingIndicator: const CircularProgressIndicator().paddingEach(
-              t: 20, b: 20),
+          loadingIndicator: const CircularProgressIndicator().symPad(
+            v: 20,
+            h: 0,
+          ),
           backgroundColor: Colors.white,
           //title: const Text('FLUTTER'),
           //subtitle: const Text('Welcome to community !'),
           bottomLoading: true,
           duration: const Duration(seconds: 3),
           showStatusBar: false,
-          done: Done(
-            const HomePage(),
-            animationDuration: const Duration(milliseconds: 500),
-            curve: Curves.fastLinearToSlowEaseIn,
-          ),
+          onDone: () {
+            context.go(Routers.home.routerPath);
+          },
+          // done: Done(
+          //   const HomePage(),
+          //   animationDuration: const Duration(milliseconds: 500),
+          //   curve: Curves.fastLinearToSlowEaseIn,
+          // ),
         );
       },
     );

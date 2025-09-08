@@ -1,37 +1,33 @@
-import 'package:flutter_temp/config/env/index.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
-import '../utils/app_logger.dart';
+import '../utils/app_logger.dart' show devLog;
 import 'app_enums.dart';
-import 'app_env.dart';
 
 class AppConfig {
   static Env env = Env.qa;
-  static AppEnv appEnv = DevEnv();
+  // static AppEnv appEnv = DevEnv();
 
   ///Network
   static String baseUrl = '';
 
   static Future<void> loadEnv() async {
     await _checkEnv();
-    DevLog.log(env.toString());
+    devLog(env.toString());
 
     switch (env) {
       case Env.qa:
-        appEnv = DevEnv();
+        // appEnv = DevEnv();
         break;
       case Env.stg:
-        appEnv = StgEnv();
+        // appEnv = StgEnv();
         break;
       case Env.prod:
-        appEnv = ProdEnv();
+        // appEnv = ProdEnv();
         break;
-      default:
-        break;
-    }
+      }
 
-    baseUrl = '${appEnv.baseUrl}/api/';
-    DevLog.log(baseUrl);
+    // baseUrl = '${appEnv.baseUrl}/api/';
+    devLog(baseUrl);
   }
 
   static Future<void> _checkEnv() async {

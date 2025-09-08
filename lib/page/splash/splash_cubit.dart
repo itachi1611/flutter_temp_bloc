@@ -14,7 +14,7 @@ class SplashCubit extends Cubit<SplashState> {
   Future<void> getDeviceInfo() async {
     var deviceInfo = await AppInfo.instance.getDeviceInfo();
     AppSharedPreference.setSharedPrefConfig(AppConstants.appInfo, deviceInfo);
-    AppLogger().i(deviceInfo);
+    info(deviceInfo);
   }
 
   void onAnimateLogo() {

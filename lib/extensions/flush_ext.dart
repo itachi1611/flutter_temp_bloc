@@ -15,9 +15,7 @@ extension FlushBarExtension on FlushType {
         return AppColors.warningBg;
       case FlushType.error:
         return AppColors.errorBg;
-      default:
-        return AppColors.warningBg;
-    }
+      }
   }
 
   Icon get flushIcon {
@@ -30,9 +28,7 @@ extension FlushBarExtension on FlushType {
         return const Icon(Icons.warning, color: Colors.white);
       case FlushType.error:
         return const Icon(Icons.error, color: Colors.white);
-      default:
-        return const Icon(Icons.warning, color: Colors.white);
-    }
+      }
   }
 
   String get flushTitle {
@@ -45,8 +41,6 @@ extension FlushBarExtension on FlushType {
         return S.current.flush_bar_warning;
       case FlushType.error:
         return S.current.flush_bar_error;
-      default:
-        return S.current.flush_bar_warning;
-    }
+      }
   }
 }
