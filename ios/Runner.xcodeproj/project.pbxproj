@@ -157,6 +157,7 @@
 			buildPhases = (
 				9F019B636A00BDB8F7D253CE /* [CP] Check Pods Manifest.lock */,
 				9740EEB61CF901F6004384FC /* Run Script */,
+				843E68CA2EA8C98900525636 /* Replace Google Info Plist */,
 				97C146EA1CF9000F007C117D /* Sources */,
 				97C146EB1CF9000F007C117D /* Frameworks */,
 				B2B5ABC22C47C47100CE7218 /* Copy GoogleService-Info.plist */,
@@ -233,9 +234,13 @@
 			inputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-Runner/Pods-Runner-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
+			inputPaths = (
+			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-Runner/Pods-Runner-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -266,14 +271,36 @@
 			inputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-Runner/Pods-Runner-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
+			inputPaths = (
+			);
 			name = "[CP] Copy Pods Resources";
 			outputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-Runner/Pods-Runner-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Runner/Pods-Runner-resources.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		843E68CA2EA8C98900525636 /* Replace Google Info Plist */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Replace Google Info Plist";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Firebase Config Selector Script\nDEST=\"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app/GoogleService-Info.plist\"\n# Remove existing file\nrm -f \"$DEST\"\n# Select config based on build configuration\nif [[ \"$CONFIGURATION\" == *\"-prod\"* ]]; then\n    cp \"${PROJECT_DIR}/Runner/GoogleService-Info-prod.plist\" \"$DEST\"\n    echo \"Using PRODUCTION Firebase config\"\nelif [[ \"$CONFIGURATION\" == *\"-uat\"* ]]; then\n    cp \"${PROJECT_DIR}/Runner/GoogleService-Info-uat.plist\" \"$DEST\"\n    echo \"Using STAGING Firebase config\"\nelif [[ \"$CONFIGURATION\" == *\"-dev\"* ]]; then\n    cp \"${PROJECT_DIR}/Runner/GoogleService-Info-dev.plist\" \"$DEST\"\n    echo \"Using DEV Firebase config\"\nelse\n    echo \"ERROR: Unknown configuration - $CONFIGURATION\"\n    exit 1\nfi\n# Verify copy succeeded\nif [ -f \"$DEST\" ]; then\n    echo \"Success: ${DEST}\"\nelse\n    echo \"ERROR: File not created\"\n    exit 1\n";
 		};
 		9740EEB61CF901F6004384FC /* Run Script */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -288,7 +315,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "/bin/sh \"$FLUTTER_ROOT/packages/flutter_tools/bin/xcode_backend.sh\" build";
+			shellScript = "/bin/sh \"$FLUTTER_ROOT/packages/flutter_tools/bin/xcode_backend.sh\" build\n";
 		};
 		9F019B636A00BDB8F7D253CE /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -432,7 +459,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.fluttertemp.flutterTemp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.fox.flutter.tmp;
 				PRODUCT_DISPLAY_NAME = fox;
 				PRODUCT_NAME = "$(PRODUCT_DISPLAY_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -567,7 +594,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.fluttertemp.flutterTemp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.fox.flutter.tmp;
 				PRODUCT_DISPLAY_NAME = fox;
 				PRODUCT_NAME = "$(PRODUCT_DISPLAY_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -596,7 +623,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.fluttertemp.flutterTemp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.fox.flutter.tmp;
 				PRODUCT_DISPLAY_NAME = fox;
 				PRODUCT_NAME = "$(PRODUCT_DISPLAY_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -679,7 +706,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.fluttertemp.flutterTemp.dev;
+				PRODUCT_BUNDLE_IDENTIFIER = com.fox.flutter.tmp.dev;
 				PRODUCT_DISPLAY_NAME = fox;
 				PRODUCT_NAME = "$(PRODUCT_DISPLAY_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -690,7 +717,7 @@
 			};
 			name = "Debug-dev";
 		};
-		B2B5ABB02C47B50D00CE7218 /* Debug-stg */ = {
+		B2B5ABB02C47B50D00CE7218 /* Debug-uat */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -743,9 +770,9 @@
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
-			name = "Debug-stg";
+			name = "Debug-uat";
 		};
-		B2B5ABB12C47B50D00CE7218 /* Debug-stg */ = {
+		B2B5ABB12C47B50D00CE7218 /* Debug-uat */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 9740EEB21CF90195004384FC /* Debug.xcconfig */;
 			buildSettings = {
@@ -763,7 +790,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.fluttertemp.flutterTemp.stg;
+				PRODUCT_BUNDLE_IDENTIFIER = com.fox.flutter.tmp.stg;
 				PRODUCT_DISPLAY_NAME = fox;
 				PRODUCT_NAME = "$(PRODUCT_DISPLAY_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -772,7 +799,7 @@
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
-			name = "Debug-stg";
+			name = "Debug-uat";
 		};
 		B2B5ABB22C47B51900CE7218 /* Release-dev */ = {
 			isa = XCBuildConfiguration;
@@ -844,7 +871,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.fluttertemp.flutterTemp.dev;
+				PRODUCT_BUNDLE_IDENTIFIER = com.fox.flutter.tmp.dev;
 				PRODUCT_DISPLAY_NAME = fox;
 				PRODUCT_NAME = "$(PRODUCT_DISPLAY_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -927,7 +954,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.fluttertemp.flutterTemp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.fox.flutter.tmp;
 				PRODUCT_DISPLAY_NAME = fox;
 				PRODUCT_NAME = "$(PRODUCT_DISPLAY_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -938,7 +965,7 @@
 			};
 			name = "Debug-prod";
 		};
-		B2B5ABB62C47B52A00CE7218 /* Release-stg */ = {
+		B2B5ABB62C47B52A00CE7218 /* Release-uat */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -988,9 +1015,9 @@
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
-			name = "Release-stg";
+			name = "Release-uat";
 		};
-		B2B5ABB72C47B52A00CE7218 /* Release-stg */ = {
+		B2B5ABB72C47B52A00CE7218 /* Release-uat */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7AFA3C8E1D35360C0083082E /* Release.xcconfig */;
 			buildSettings = {
@@ -1008,7 +1035,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.fluttertemp.flutterTemp.stg;
+				PRODUCT_BUNDLE_IDENTIFIER = com.fox.flutter.tmp.stg;
 				PRODUCT_DISPLAY_NAME = fox;
 				PRODUCT_NAME = "$(PRODUCT_DISPLAY_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1016,7 +1043,7 @@
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
-			name = "Release-stg";
+			name = "Release-uat";
 		};
 		B2B5ABB82C47B53000CE7218 /* Release-prod */ = {
 			isa = XCBuildConfiguration;
@@ -1088,7 +1115,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.fluttertemp.flutterTemp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.fox.flutter.tmp;
 				PRODUCT_DISPLAY_NAME = fox;
 				PRODUCT_NAME = "$(PRODUCT_DISPLAY_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1166,7 +1193,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.fluttertemp.flutterTemp.dev;
+				PRODUCT_BUNDLE_IDENTIFIER = com.fox.flutter.tmp.dev;
 				PRODUCT_DISPLAY_NAME = fox;
 				PRODUCT_NAME = "$(PRODUCT_DISPLAY_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1176,7 +1203,7 @@
 			};
 			name = "Profile-dev";
 		};
-		B2B5ABBC2C47B53E00CE7218 /* Profile-stg */ = {
+		B2B5ABBC2C47B53E00CE7218 /* Profile-uat */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -1224,9 +1251,9 @@
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
-			name = "Profile-stg";
+			name = "Profile-uat";
 		};
-		B2B5ABBD2C47B53E00CE7218 /* Profile-stg */ = {
+		B2B5ABBD2C47B53E00CE7218 /* Profile-uat */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7AFA3C8E1D35360C0083082E /* Release.xcconfig */;
 			buildSettings = {
@@ -1244,7 +1271,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.fluttertemp.flutterTemp.stg;
+				PRODUCT_BUNDLE_IDENTIFIER = com.fox.flutter.tmp.stg;
 				PRODUCT_DISPLAY_NAME = fox;
 				PRODUCT_NAME = "$(PRODUCT_DISPLAY_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1252,7 +1279,7 @@
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
-			name = "Profile-stg";
+			name = "Profile-uat";
 		};
 		B2B5ABBE2C47B54500CE7218 /* Profile-prod */ = {
 			isa = XCBuildConfiguration;
@@ -1322,7 +1349,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.fluttertemp.flutterTemp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.fox.flutter.tmp;
 				PRODUCT_DISPLAY_NAME = fox;
 				PRODUCT_NAME = "$(PRODUCT_DISPLAY_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1340,15 +1367,15 @@
 			buildConfigurations = (
 				97C147031CF9000F007C117D /* Debug */,
 				B2B5ABB42C47B52000CE7218 /* Debug-prod */,
-				B2B5ABB02C47B50D00CE7218 /* Debug-stg */,
+				B2B5ABB02C47B50D00CE7218 /* Debug-uat */,
 				B2B5ABAE2C47B50600CE7218 /* Debug-dev */,
 				97C147041CF9000F007C117D /* Release */,
 				B2B5ABB82C47B53000CE7218 /* Release-prod */,
-				B2B5ABB62C47B52A00CE7218 /* Release-stg */,
+				B2B5ABB62C47B52A00CE7218 /* Release-uat */,
 				B2B5ABB22C47B51900CE7218 /* Release-dev */,
 				249021D3217E4FDB00AE95B9 /* Profile */,
 				B2B5ABBE2C47B54500CE7218 /* Profile-prod */,
-				B2B5ABBC2C47B53E00CE7218 /* Profile-stg */,
+				B2B5ABBC2C47B53E00CE7218 /* Profile-uat */,
 				B2B5ABBA2C47B53800CE7218 /* Profile-dev */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -1359,15 +1386,15 @@
 			buildConfigurations = (
 				97C147061CF9000F007C117D /* Debug */,
 				B2B5ABB52C47B52000CE7218 /* Debug-prod */,
-				B2B5ABB12C47B50D00CE7218 /* Debug-stg */,
+				B2B5ABB12C47B50D00CE7218 /* Debug-uat */,
 				B2B5ABAF2C47B50600CE7218 /* Debug-dev */,
 				97C147071CF9000F007C117D /* Release */,
 				B2B5ABB92C47B53000CE7218 /* Release-prod */,
-				B2B5ABB72C47B52A00CE7218 /* Release-stg */,
+				B2B5ABB72C47B52A00CE7218 /* Release-uat */,
 				B2B5ABB32C47B51900CE7218 /* Release-dev */,
 				249021D4217E4FDB00AE95B9 /* Profile */,
 				B2B5ABBF2C47B54500CE7218 /* Profile-prod */,
-				B2B5ABBD2C47B53E00CE7218 /* Profile-stg */,
+				B2B5ABBD2C47B53E00CE7218 /* Profile-uat */,
 				B2B5ABBB2C47B53800CE7218 /* Profile-dev */,
 			);
 			defaultConfigurationIsVisible = 0;

@@ -23,15 +23,24 @@ if (flutterVersionName == null) {
     flutterVersionName = '1.0'
 }
 
+// Load signing config
+def signingProperties = new Properties()
+def propsFile = rootProject.file("signing.properties")
+if (propsFile.exists()) {
+    signingProperties.load(new FileInputStream(propsFile))
+} else {
+    println("WARNING: signning.properties not found at ${keystorePropertiesFile.path}")
+}
+
 android {
     compileSdkVersion flutter.compileSdkVersion
-    ndkVersion "26.1.10909125"
-    // ndkVersion flutter.ndkVersion
+    // ndkVersion "26.1.10909125"
+     ndkVersion flutter.ndkVersion
 
     compileOptions {
         coreLibraryDesugaringEnabled true
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
     }
 
     buildFeatures {
@@ -39,7 +48,7 @@ android {
     }
 
     kotlinOptions {
-        jvmTarget = '1.8'
+        jvmTarget = '11'
     }
 
     sourceSets {
@@ -48,77 +57,81 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId "com.flutter_temp.flutter_temp"
+        applicationId "com.fox.flutter.tmp"
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-build-configuration.
-        minSdkVersion flutter.minSdkVersion
+        // minSdkVersion flutter.minSdkVersion
+        minSdkVersion 23
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
         multiDexEnabled true
     }
 
-    flavorDimensions 'app'
-
+    // Define flavors list and signing config for each
     signingConfigs {
-        debug {
-            storeFile file('dev-keystore.jks')
-            storePassword 'foxy1611'
-            keyAlias 'builder'
-            keyPassword 'foxy1611'
+        dev {
+            // No signing config
         }
-        release {
-            storeFile file('prod-keystore.jks')
-            storePassword 'foxy1611'
-            keyPassword 'foxy1611'
-            keyAlias 'builder'
+
+        uat {
+            // No signing config
+        }
+
+        prod {
+            storeFile file(signingProperties["PROD_STORE_FILE"])
+            storePassword signingProperties["PROD_STORE_PASSWORD"]
+            keyAlias signingProperties["PROD_KEY_ALIAS"]
+            keyPassword signingProperties["PROD_KEY_PASSWORD"]
         }
     }
 
+    // Define FLAVOR
+    flavorDimensions 'app'
     productFlavors {
         dev {
             dimension 'app'
-            applicationId 'com.flutter_temp.flutter_temp'
-            resValue 'string', 'app_name', 'dev_foxy'
-            applicationIdSuffix '.dev'
-            signingConfig signingConfigs.debug
+            applicationId 'com.fox.flutter.tmp'
+            resValue 'string', 'app_name', '[DEV]foxy'
+            // Add id suffix
+            // applicationIdSuffix '.dev'
         }
 
-        stg {
+        uat {
             dimension 'app'
-            applicationId 'com.flutter_temp.flutter_temp'
-            resValue 'string', 'app_name', 'stg_foxy'
-            applicationIdSuffix '.stg'
-            signingConfig signingConfigs.release
+            applicationId 'com.fox.flutter.tmp'
+            resValue 'string', 'app_name', '[UAT]foxy'
+            // Add id suffix
+            // applicationIdSuffix '.stg'
         }
 
         prod {
             dimension 'app'
-            applicationId 'com.flutter_temp.flutter_temp'
+            applicationId 'com.fox.flutter.tmp'
             resValue 'string', 'app_name', 'foxy'
-            signingConfig signingConfigs.release
         }
     }
 
     buildTypes {
         debug {
-            signingConfig signingConfigs.debug
+            // No signing config needed here, it will use the default debug key
         }
-
         profile {
-            signingConfig signingConfigs.release
+            // Profile builds should also be signed with the release key.
+            // This will also inherit from the flavor's signingConfig.
         }
 
         release {
             // TODO: Add your own signing config for the release build.
             // Signing with the debug keys for now, so `flutter run --release` works.
-            signingConfig signingConfigs.release
+            signingConfig signingConfigs.prod
             multiDexEnabled true
             minifyEnabled true
+            shrinkResources true
         }
     }
 
-    namespace 'com.flutter_temp.flutter_temp'
+    namespace 'com.fox.flutter.tmp'
 }
 
 flutter {
@@ -126,6 +139,6 @@ flutter {
 }
 
 dependencies {
-    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.2.2'
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.1.4'
     // other dependencies
 }

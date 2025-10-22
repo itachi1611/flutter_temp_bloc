@@ -88,7 +88,6 @@ dependencies:
   package_info_plus: ^8.0.0
   json_annotation: ^4.9.0
   timezone: ^0.10.1
-  flutter_timezone: ^2.0.1
   pretty_dio_logger: ^1.4.0
   gap: ^3.0.1
 
@@ -122,15 +121,23 @@ dev_dependencies:
 
 # The following section is specific to Flutter packages.
 flutter:
-  # generate: true
+  # Enable general localization:
+  generate: true
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
 
+  # Enable default flavor
+  default-flavor: dev
+
+  licenses:
+
   assets:
     - assets/images/
     - assets/lottie/
+
+  #fonts:
 
   # To add assets to your application, add an assets section, like this:
   # assets:

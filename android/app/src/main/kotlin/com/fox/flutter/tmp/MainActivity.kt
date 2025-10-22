@@ -1,4 +1,4 @@
-package com.flutter_temp.flutter_temp
+package com.fox.flutter.tmp-tmp
 
 import io.flutter.embedding.android.FlutterActivity
 
