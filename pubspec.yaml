@@ -128,8 +128,7 @@ flutter:
   # the material Icons class.
   uses-material-design: true
 
-  # Enable default flavor
-  default-flavor: dev
+
 
   licenses:
     - LICENSE
@@ -137,6 +136,9 @@ flutter:
   assets:
     - assets/images/
     - assets/lottie/
+
+  # Enable default flavor
+  # default-flavor: dev
 
   #fonts:
 
