@@ -132,6 +132,7 @@ flutter:
   default-flavor: dev
 
   licenses:
+    - LICENSE
 
   assets:
     - assets/images/
