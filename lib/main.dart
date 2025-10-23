@@ -13,7 +13,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:logger/logger.dart';
 
 import 'app/app_page.dart';
-import 'firebase_options.dart';
+import 'firebase/dev/firebase_options.dart';
 
 /// To verify that your messages are being received, you ought to see a notification appear on your device/emulator via the flutter_local_notifications plugin.
 /// Define a top-level named handler which background/terminated messages will
