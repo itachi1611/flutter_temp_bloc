@@ -87,12 +87,12 @@ print_options() {
 run_cmd() {
   printf "%b\n" ""
   printf "%b\n" "${DIM}--------------------------------------------------${RESET}"
-  printf "%b\n" "${GREEN}Running:${RESET} %s" "$*"
+  printf "%sRunning:%s %s\n" "$GREEN" "$RESET" "$actual"
   printf "%b\n" "${DIM}--------------------------------------------------${RESET}"
   eval "$*"
   rc=$?
   printf "%b\n" "${DIM}--------------------------------------------------${RESET}"
-  printf "%b\n" "${BOLD}Return code:${RESET} %d" "$rc"
+  printf "%sReturn code:%s %d\n" "$BOLD" "$RESET" "$rc"
   printf "%b\n" "${DIM}--------------------------------------------------${RESET}"
   printf "%b\n" ""
 }
@@ -170,16 +170,17 @@ while true; do
   esac
 
   printf "\n"
-  printf "%b\n" "${BOLD}${WHITE}You selected group:${RESET} ${MAGENTA}%s${RESET}" "$CURRENT_GROUP_NAME"
+  printf "%s%sYou selected group:%s %s%s%s\n" \
+    "$BOLD" "$WHITE" "$RESET" "$MAGENTA" "$CURRENT_GROUP_NAME" "$RESET"
 
   # submenu
   while true; do
     printf "\n"
     printf "%b\n" "${CYAN}Available commands:${RESET}"
     # print_options uses printf with format string constant
-    local i=1
+    i=1
     for item in "${CURRENT_OPTIONS[@]}"; do
-      printf "%b\n" "  ${YELLOW}%2d)${RESET} ${item}" "$i"
+      printf "  ${YELLOW}%2d)${RESET} %s\n" "$i" "$item"
       i=$((i+1))
     done
 
