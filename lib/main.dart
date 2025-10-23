@@ -13,7 +13,9 @@ import 'package:get_storage/get_storage.dart';
 import 'package:logger/logger.dart';
 
 import 'app/app_page.dart';
-import 'firebase/dev/firebase_options.dart';
+import 'firebase/dev/firebase_options.dart' as dev;
+import 'firebase/uat/firebase_options.dart' as uat;
+import 'firebase/prod/firebase_options.dart' as prod;
 
 /// To verify that your messages are being received, you ought to see a notification appear on your device/emulator via the flutter_local_notifications plugin.
 /// Define a top-level named handler which background/terminated messages will
@@ -21,7 +23,14 @@ import 'firebase/dev/firebase_options.dart';
 @pragma('vm:entry-point')
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   try {
-    await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+    final firebaseOptions = switch (appFlavor) {
+      'prod' => prod.DefaultFirebaseOptions.currentPlatform,
+      'uat' => uat.DefaultFirebaseOptions.currentPlatform,
+      'dev' => dev.DefaultFirebaseOptions.currentPlatform,
+      _ => throw UnsupportedError('Invalid flavor: $appFlavor'),
+    };
+
+    await Firebase.initializeApp(options: firebaseOptions);
     simpleLog('Init Firebase on BackgroundHandler success');
   } catch (e, s) {
     customLog(Level.error, 'Init firebase on BackgroundHandler failed', e, s);
@@ -39,8 +48,15 @@ Future<void> main() async {
 
   /// Initialize Firebase
   try {
-    await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-    simpleLog('Init Firebase on MainIsolate success');
+    final firebaseOptions = switch (appFlavor) {
+      'prod' => prod.DefaultFirebaseOptions.currentPlatform,
+      'uat' => uat.DefaultFirebaseOptions.currentPlatform,
+      'dev' => dev.DefaultFirebaseOptions.currentPlatform,
+      _ => throw UnsupportedError('Invalid flavor: $appFlavor'),
+    };
+
+    await Firebase.initializeApp(options: firebaseOptions)
+      .whenComplete(() => simpleLog('Init Firebase on MainIsolate success'));
   } catch (e, s) {
     customLog(Level.error, 'Init firebase on MainIsolate failed', e, s);
   }
