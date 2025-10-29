@@ -99,13 +99,20 @@ fi
 
 # ---------- Package selector (w/s, space, enter, b) ----------
 redraw_package_selector() {
-  local cur=$1; shift
-  local -n pkgs=$1; local -n sel=$2
+  local cur="$1"
+  shift
+  local pkgs_var="$1"; shift
+  local sel_var="$1"
+
+  eval "local pkgs=( \"\${${pkgs_var}[@]}\" )"
+  eval "local sel=( \"\${${sel_var}[@]}\" )"
+
   printf '\033[2J\033[H'
   print_banner
   printf "\n%b\n" "${BOLD}${WHITE}Select packages to run build_runner on:${RESET}"
   printf "%b\n" "${DIM}(Use ${YELLOW}w${RESET}/${YELLOW}s${RESET} to move, ${YELLOW}Space${RESET} to toggle, ${YELLOW}Enter${RESET} to run, ${YELLOW}b${RESET} to cancel)${RESET}"
   printf "\n"
+  # shellcheck disable=SC2154
   for i in "${!pkgs[@]}"; do
     local mark="[ ]"
     [ "${sel[i]:-0}" = "1" ] && mark="[x]"
@@ -119,35 +126,39 @@ redraw_package_selector() {
 }
 
 package_selector_loop() {
-  # returns 0 + SELECTED_PKGS or 1 if cancelled
-  local -n pkgList=$1
-  local n=${#pkgList[@]}
-  local sel; sel=()
+  local pkgs_name="$1"
+  eval "local pkgs=( \"\${${pkgs_name}[@]}\" )"
+  local n=${#pkgs[@]}
+
+  SELECTED_PKGS=()
+  local sel=()
   for ((i=0;i<n;i++)); do sel[i]=1; done
   local cur=0
 
   exec 3</dev/tty 2>/dev/null || { echo "Cannot open /dev/tty"; return 1; }
   printf '\033[?25l'
-  trap 'printf "\033[?25h"; printf "\033[2J\033[H"; print_banner; print_header; exec 3<&- 2>/dev/null || true' EXIT
+  trap 'printf "\033[?25h"; printf "\033[2J\033[H"; print_banner; exec 3<&- 2>/dev/null || true' EXIT
 
   while true; do
-    redraw_package_selector "$cur" pkgList sel
-    IFS= read -rsn1 -u 3 key || key=""
-    [ -z "$key" ] && key=$'\r'
+    redraw_package_selector "$cur" pkgs sel
 
-    if [ "$key" = $'\x1b' ]; then
-      IFS= read -rsn3 -t 0.02 -u 3 _ || true
-      key=$'\x1b'
+    # ---- CHANGED: read arrow keys safely ----
+    IFS= read -rsn1 -u 3 key || key=""
+    if [[ "$key" == $'\x1b' ]]; then
+      read -rsn2 -u 3 rest || rest=""
+      key+="$rest"
     fi
+    [ -z "$key" ] && key=$'\r'
+    # ----------------------------------------
 
     case "$key" in
-      'w'|'W') cur=$(( (cur - 1 + n) % n ));;
-      's'|'S') cur=$(( (cur + 1) % n ));;
+      $'\x1b[A') cur=$(( (cur - 1 + n) % n ));;   # Up arrow
+      $'\x1b[B') cur=$(( (cur + 1) % n ));;       # Down arrow
       ' ') sel[$cur]=$(( 1 - ${sel[$cur]:-1} ));;
       $'\r')
         SELECTED_PKGS=()
-        for i in "${!pkgList[@]}"; do
-          [ "${sel[i]:-0}" = "1" ] && SELECTED_PKGS+=("${pkgList[i]}")
+        for i in "${!pkgs[@]}"; do
+          [ "${sel[i]}" = "1" ] && SELECTED_PKGS+=("${pkgs[i]}")
         done
         trap - EXIT
         printf '\033[?25h'
@@ -163,7 +174,7 @@ package_selector_loop() {
         exec 3<&- 2>/dev/null || true
         return 1
         ;;
-      *) ;;
+      *) ;; # ignore any other keys
     esac
   done
 }
@@ -225,47 +236,100 @@ while true; do
       continue
     fi
 
-    # build_runner special flow
+    # ---------- build_runner special flow ----------
+    # ---------- build_runner special flow ----------
     if [[ "$CMD" == "Generate code (build_runner)" ]]; then
-      if package_selector_loop BUILD_PACKAGES; then
-        if [ "${#SELECTED_PKGS[@]}" -eq 0 ]; then
-          printf "%b\n" "${YELLOW}No packages selected. Skipping build_runner.${RESET}"
+
+      # STEP 1 — Ask ALL or SELECT
+      printf "\n%sGenerate code (build_runner):%s\n" "$BOLD$WHITE" "$RESET"
+      printf "  %s1)%s All packages\n" "$YELLOW" "$RESET"
+      printf "  %s2)%s Select packages\n" "$YELLOW" "$RESET"
+      printf "  %sb)%s Back\n" "$YELLOW" "$RESET"
+      printf "%s➜ %s" "$BLUE" "$RESET"
+      IFS= read -rsn1 mode </dev/tty || mode=""
+      printf "\n"
+
+      case "$(to_lower "$mode")" in
+        b|q)
           continue
-        fi
+          ;;
+        1)
+          ROOT_DIR="$(pwd)"
 
-        ROOT_DIR="$(pwd)"
-        printf "%b\n" "${DIM}--------------------------------------------------${RESET}"
-        printf "%sSelected packages:%s %s\n" "$BOLD" "$RESET" "${SELECTED_PKGS[*]}"
-        printf "%b\n" "${DIM}--------------------------------------------------${RESET}"
+          printf "\n%s--------------------------------------------------%s\n" "$DIM" "$RESET"
+          printf "%sRunning build_runner for ALL packages:%s %s\n" "$BOLD" "$RESET" "${BUILD_PACKAGES[*]}"
+          printf "%s--------------------------------------------------%s\n" "$DIM" "$RESET"
 
-        for pkg in "${SELECTED_PKGS[@]}"; do
-          if [[ "$pkg" == "main" || "$pkg" == "." || "$pkg" == "root" ]]; then
+          for pkg in "${BUILD_PACKAGES[@]}"; do
             ts=$(date +'%Y-%m-%d %H:%M:%S')
-            printf "%b\n" "${DIM}--------------------------------------------------${RESET}"
-            printf "%sRunning build_runner in (root):%s %s\n" "$GREEN" "$RESET" "$pkg"
-            printf "%sStarted at:%s %s\n" "$BOLD" "$RESET" "$ts"
-            printf "%b\n" "${DIM}--------------------------------------------------${RESET}"
-            (cd "${ROOT_DIR}" && flutter pub run build_runner build --delete-conflicting-outputs)
-          else
-            if [ -d "${ROOT_DIR}/${pkg}" ]; then
-              ts=$(date +'%Y-%m-%d %H:%M:%S')
-              printf "%b\n" "${DIM}--------------------------------------------------${RESET}"
-              printf "%sRunning build_runner in:%s %s\n" "$GREEN" "$RESET" "$pkg"
-              printf "%sStarted at:%s %s\n" "$BOLD" "$RESET" "$ts"
-              printf "%b\n" "${DIM}--------------------------------------------------${RESET}"
-              (cd "${ROOT_DIR}/${pkg}" && flutter pub run build_runner build --delete-conflicting-outputs)
-            else
-              printf "%sSkip, folder not found:%s %s\n" "$YELLOW" "$RESET" "$pkg"
-            fi
-          fi
-        done
+            printf "\n%s--------------------------------------------------%s\n" "$DIM" "$RESET"
 
-        printf "%b\n" "${DIM}================ build_runner completed ================${RESET}"
-        cd "${ROOT_DIR}" || true
-      else
-        printf "%b\n" "${DIM}Cancelled package selection. Returning to menu.${RESET}"
-      fi
-      continue
+            if [[ "$pkg" == "main" || "$pkg" == "." || "$pkg" == "root" ]]; then
+              printf "%sRunning build_runner in (root):%s %s\n" "$GREEN" "$RESET" "$pkg"
+              printf "%sStarted at:%s %s\n" "$BOLD" "$RESET" "$ts"
+              printf "%s--------------------------------------------------%s\n" "$DIM" "$RESET"
+              (cd "${ROOT_DIR}" && flutter pub run build_runner build --delete-conflicting-outputs)
+            else
+              if [ -d "${ROOT_DIR}/${pkg}" ]; then
+                printf "%sRunning build_runner in:%s %s\n" "$GREEN" "$RESET" "$pkg"
+                printf "%sStarted at:%s %s\n" "$BOLD" "$RESET" "$ts"
+                printf "%s--------------------------------------------------%s\n" "$DIM" "$RESET"
+                (cd "${ROOT_DIR}/${pkg}" && flutter pub run build_runner build --delete-conflicting-outputs)
+              else
+                printf "%sSkip, folder not found:%s %s\n" "$YELLOW" "$RESET" "$pkg"
+              fi
+            fi
+          done
+
+          printf "\n%s================ build_runner ALL completed ================%s\n\n" "$DIM" "$RESET"
+          cd "${ROOT_DIR}" || true
+          continue
+          ;;
+        2)
+          if package_selector_loop BUILD_PACKAGES; then
+            if [ "${#SELECTED_PKGS[@]}" -eq 0 ]; then
+              printf "%sNo packages selected. Skipping build_runner.%s\n" "$YELLOW" "$RESET"
+              continue
+            fi
+
+            ROOT_DIR="$(pwd)"
+            printf "\n%s--------------------------------------------------%s\n" "$DIM" "$RESET"
+            printf "%sSelected packages:%s %s\n" "$BOLD" "$RESET" "${SELECTED_PKGS[*]}"
+            printf "%s--------------------------------------------------%s\n" "$DIM" "$RESET"
+
+            for pkg in "${SELECTED_PKGS[@]}"; do
+              ts=$(date +'%Y-%m-%d %H:%M:%S')
+              printf "\n%s--------------------------------------------------%s\n" "$DIM" "$RESET"
+
+              if [[ "$pkg" == "main" || "$pkg" == "." || "$pkg" == "root" ]]; then
+                printf "%sRunning build_runner in (root):%s %s\n" "$GREEN" "$RESET" "$pkg"
+                printf "%sStarted at:%s %s\n" "$BOLD" "$RESET" "$ts"
+                printf "%s--------------------------------------------------%s\n" "$DIM" "$RESET"
+                (cd "${ROOT_DIR}" && flutter pub run build_runner build --delete-conflicting-outputs)
+              else
+                if [ -d "${ROOT_DIR}/${pkg}" ]; then
+                  printf "%sRunning build_runner in:%s %s\n" "$GREEN" "$RESET" "$pkg"
+                  printf "%sStarted at:%s %s\n" "$BOLD" "$RESET" "$ts"
+                  printf "%s--------------------------------------------------%s\n" "$DIM" "$RESET"
+                  (cd "${ROOT_DIR}/${pkg}" && flutter pub run build_runner build --delete-conflicting-outputs)
+                else
+                  printf "%sSkip, folder not found:%s %s\n" "$YELLOW" "$RESET" "$pkg"
+                fi
+              fi
+            done
+
+            printf "\n%s================ build_runner SELECT completed ================%s\n\n" "$DIM" "$RESET"
+            cd "${ROOT_DIR}" || true
+          else
+            printf "%sCancelled package selection. Returning to menu.%s\n" "$DIM" "$RESET"
+          fi
+          continue
+          ;;
+        *)
+          printf "%sInvalid choice. Returning.%s\n" "$RED" "$RESET"
+          continue
+          ;;
+      esac
     fi
 
     # Add / Remove package flows prompt user for package name
